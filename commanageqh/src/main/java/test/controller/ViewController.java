@@ -43,6 +43,7 @@ public class ViewController {
         }else {
             map.put("result","fail");
         }
+        map.put("result","success");
         return map;
     }
 

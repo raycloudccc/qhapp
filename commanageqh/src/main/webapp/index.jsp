@@ -4,10 +4,10 @@
     <title>IDEA搭建SpringMVC并用maven配置的小例子</title>
 </head>
 <%--<link rel="stylesheet" href="/asset/css/style.css"/>--%>
-<script type="text/javascript" src="/plugs/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="plugs/js/jquery-1.7.2.js"></script>
 
 <body>
-<form id="userForm" action="/user/find" method="post">
+<form id="userForm" action="user/find" method="post">
     用户名：<input type="text" name="username"><br>
     密码：<input type="password" name="password">
     <button type="button" onclick="login()">登录</button>
@@ -23,7 +23,7 @@
             success: function(data){
                 if (data.result = "success"){
                     alert("登录成功");
-                    location.href='/user/success';
+                    location.href='user/success';
                 }else{
                     alert("用户名或者密码错误！");
                 }

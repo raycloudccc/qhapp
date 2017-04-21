@@ -164,17 +164,21 @@
             $('#ttmenu').tree({
                 animate:true,
                 lines:true,
-                url:"menu/listmenus",
+                url:"menu/listmenus?parent_id=0",
                 onBeforeExpand:function(node){
-                    $('#ttmenu').tree('options').url="main-loadmenus.cyc?parentid="+node.id;
+                    console.log(node.id);
+                    console.log(node.url);
+                    $('#ttmenu').tree('options').url="menu/listmenus?parent_id="+node.id;
                     return true;
                 },
                 onClick:function(node){
-                    $(this).tree('toggle', node.target);
-                    //checknode(node.id);
-                    if(node.attributes.url!="#" && node.attributes.url!=""){
-                        checknode(node.id);
-                    }
+//                    $('#ttmenu').tree('options').url="menu/listmenus?parent_id="+node.id;
+//                    $('#ttmenu').tree('options').url="#";
+//                    $(this).tree('toggle', node.target);
+//                    if(node.attributes.url!="#" && node.attributes.url!=""){
+//                        checknode(node.id);
+//                    }
+
                 }
             });
             <c:if test="${dictionary.hasCmd}">

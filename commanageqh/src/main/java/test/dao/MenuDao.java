@@ -10,5 +10,5 @@ import java.util.List;
  */
 @Repository("MenuDao")
 public interface MenuDao {
-    public List<Menu> listMenus();
+    public List<Menu> listMenus(String parent_id);
 }

@@ -1,5 +1,7 @@
 package test.controller;
 
+import net.sf.json.JSONArray;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,10 +22,8 @@ public class MenuController {
 
     @ResponseBody
     @RequestMapping("listmenus")
-    public List<Menu> listMenus(){
-        System.out.println("service:"+menuService);
-        System.out.println("aaaaaaaaaaa:"+menuService.getMenusList());
-       return menuService.getMenusList();
+    public JSONArray listMenus(@Param("parend_id") String parent_id){
+       return menuService.getMenusList(parent_id);
     }
 
 }

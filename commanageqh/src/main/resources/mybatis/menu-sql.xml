@@ -21,10 +21,12 @@
         </trim>
     </sql>
 
-    <select id="listMenus" resultMap="resultMap">
+    <select id="listMenus" resultMap="resultMap" parameterType="string">
         SELECT
         <include refid="columnSql"></include>
         FROM sys_menus m
+        <if test="_parameter!=null">WHERE m.parent_id=#{_parameter} </if>
+        ORDER BY seq
     </select>
 
 
