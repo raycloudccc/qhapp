@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import test.dao.AccountDao;
 import test.entity.Account;
 import test.service.AccountService;
+import test.utils.DataGridUtils;
 
 import javax.annotation.Resource;
 
@@ -17,15 +18,12 @@ public class AccountServiceImpl implements AccountService{
 
     @Resource(name="AccountDao")
     private AccountDao accountDao;
+    @Resource(name="DataGridUtils")
+    private DataGridUtils dataGridUtils;
 
     @Override
     public JSONObject getAccountInfo(String uuid) {
-        JSONObject obj=new JSONObject();
-        JSONArray arr=new JSONArray();
-        obj.put("total",1);
-        JSONArray a=arr.fromObject(accountDao.getAccountInfo(uuid));
-        obj.put("rows",a);
-        System.out.println("obj:"+obj);
-        return obj;
+        return dataGridUtils.parseJSON(1,accountDao.getAccountInfo(uuid));
+
     }
 }
