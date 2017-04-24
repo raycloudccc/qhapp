@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>com.manage.qh</artifactId>
     <packaging>war</packaging>
-    <name>com.manage.qh Maven Webapp</name>
+    <name>qhApp-web Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
         <!-- spring版本号 -->
