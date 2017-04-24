@@ -13,6 +13,11 @@
     <script type="text/javascript">
         $(function () {
             $('#dg').datagrid({
+                title:'账户信息',
+                fit:true,
+                striped:true,
+                rownumbers:true,
+                singleSelect:true,
                 url: 'getAccountInfo',
                 queryParams: {
                     uuid: '1'
@@ -21,8 +26,6 @@
                     {
                         field: 'nickname', title: '昵称', width: 100,
                         formatter: function (value, row, index) {
-                            alert(value);
-                            alert(row);
                             if (row.user) {
                                 return row.user.name;
                             } else {
@@ -32,7 +35,7 @@
                     },
                     {field: 'name', title: '用户名', width: 100},
                     {field: 'tele', title: '联系方式', width: 100},
-                    {field: 'emai', title: '邮箱', width: 100}
+                    {field: 'email', title: '邮箱', width: 100}
                 ]]
             });
 
