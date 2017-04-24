@@ -10,14 +10,14 @@ import test.entity.User;
 import java.util.List;
 
 /**
- * Created by Vitelon on 2017-03-30
+ * Created by ccc on 2017-03-30
  * 用户dao接口.
  */
 @Repository("UserDao")
 public interface UserDao {
 
     /**
-     *  Created by Vitelon on 2017-03-22
+     *  Created by ccc on 2017-03-22
      *  根据用户名和密码查询用户
      * @param username
      * @param password
@@ -33,21 +33,21 @@ public interface UserDao {
     public List<User> find(User User);
 
     /**
-     *  Created by Vitelon on 2017-03-30
+     *  Created by ccc on 2017-03-30
      *  新增
      * @param User
      */
     public void add(User User);
 
     /**
-     *  Created by Vitelon on 2017-03-30
+     *  Created by ccc on 2017-03-30
      *  修改
      * @param User
      */
     public void update(User User);
 
     /**
-     *  Created by Vitelon on 2017-03-30
+     *  Created by ccc on 2017-03-30
      *  删除
      * @param id
      */
