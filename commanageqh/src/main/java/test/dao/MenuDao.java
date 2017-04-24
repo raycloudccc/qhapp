@@ -11,4 +11,6 @@ import java.util.List;
 @Repository("MenuDao")
 public interface MenuDao {
     public List<Menu> listMenus(String parent_id);
+
+    public String getUrlData(String menu_id);
 }

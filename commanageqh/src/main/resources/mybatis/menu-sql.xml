@@ -29,5 +29,9 @@
         ORDER BY seq
     </select>
 
+    <select id="getUrlData" parameterType="string" resultType="string">
+        SELECT url FROM sys_menus WHERE menu_id=#{_parameter}
+    </select>
+
 
 </mapper>

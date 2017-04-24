@@ -172,29 +172,28 @@
                     return true;
                 },
                 onClick:function(node){
-//                    $('#ttmenu').tree('options').url="menu/listmenus?parent_id="+node.id;
-//                    $('#ttmenu').tree('options').url="#";
-//                    $(this).tree('toggle', node.target);
-//                    if(node.attributes.url!="#" && node.attributes.url!=""){
-//                        checknode(node.id);
-//                    }
+                    $(this).tree('toggle', node.target);
+                    //如果获得的url为#，则表示该目录下有分目录，反之则获取url加载
+                    if(node.url!="#" && node.url!=""){
+                        checknode(node.id);
+                    }
 
                 }
             });
-            <c:if test="${dictionary.hasCmd}">
-            viewCmd();
-            </c:if>
         });
         function checknode(menuid){
             $.ajax({
                 type: "POST",
-                url: "main-urldata.cyc?menuid="+menuid,
-                data: "",
+                url: "menu/getUrlData",
+                data: {
+                    menu_id:menuid
+                },
                 dataType: "text",
                 beforeSend: function(XMLHttpRequest){
                     $("<div class=\"datagrid-mask\" style=\"display:block\"></div>").css({width:"100%",height:"100%"}).appendTo($(document.body));
                     return true;
                 },
+                //如果返回数据为空，页面加载空，有则直接加载返回的url内容
                 success: function(responseData, textStatus){
                     if(/^(null|undefined|#)$/.test(responseData)){
                         document.getElementById("mframe").src="";

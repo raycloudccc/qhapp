@@ -26,4 +26,10 @@ public class MenuController {
        return menuService.getMenusList(parent_id);
     }
 
+
+    @ResponseBody
+    @RequestMapping("getUrlData")
+    public String getUrlData(@Param("menu_id") String menu_id){
+       return menuService.getUrlData(menu_id);
+    }
 }

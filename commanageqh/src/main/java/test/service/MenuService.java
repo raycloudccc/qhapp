@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface MenuService {
     public JSONArray getMenusList(String parent_id);
+
+    public String getUrlData(String menu_id);
 }

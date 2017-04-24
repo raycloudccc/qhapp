@@ -5,14 +5,14 @@
 <meta http-equiv="pragma" content="no-cach">
 <meta http-equiv="cache-control" content="no-cache, must-revalidate">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css" href="easyui/themes/icon.css">
-<link rel="stylesheet" type="text/css" href="easyui/themes/color.css">
-<link rel="stylesheet" type="text/css" href="style/main.css">
-<script type="text/javascript" src="easyui/jquery.min.js"></script>
-<script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
-<script type="text/javascript" src="easyui/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript" src="js/jquery.form.js"></script>
+<link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../easyui/themes/color.css">
+<link rel="stylesheet" type="text/css" href="../style/main.css">
+<script type="text/javascript" src="../easyui/jquery.min.js"></script>
+<script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="../js/jquery.form.js"></script>
 <!-- <script type="text/javascript" src="js/bss.common.js"></script> -->
 <script type="text/javascript">
 <!--

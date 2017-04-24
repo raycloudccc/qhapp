@@ -34,4 +34,10 @@ public class MenuServiceImpl implements MenuService{
             }
         return arr;
     }
+
+    @Override
+    public String getUrlData(String menu_id) {
+        String url=menuDao.getUrlData(menu_id);
+        return url;
+    }
 }
