@@ -26,8 +26,7 @@ public class ViewController {
 
     @RequestMapping("/index")
     public String index(){
-
-        return "index";
+        return "begin";
     }
 
     @RequestMapping("/find")
@@ -51,8 +50,7 @@ public class ViewController {
     public String success(){
         System.out.println("登录成功。。。。");
         logger.info("登录成功。。。。");
-
-        return "success";
+        return "begin";
     }
 
 }
