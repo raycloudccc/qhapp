@@ -59,3 +59,19 @@ INSERT INTO `sys_menus` VALUES ('3', '测试2', '0', '#', '3');
 INSERT INTO `sys_menus` VALUES ('21', '2222-1', '2', '44444444', '1');
 INSERT INTO `sys_menus` VALUES ('211', '2222-1-1', '211', 'sssssssssssss', '1');
 INSERT INTO `sys_menus` VALUES ('11', '账户信息', '1', 'account/toshowaccountinfo', '1');
+
+-- ----------------------------
+-- Table structure for subject
+-- ----------------------------
+DROP TABLE IF EXISTS `subject`;
+CREATE TABLE `subject` (
+  `sub_id` varchar(32) NOT NULL,
+  `sub_name` varchar(40) NOT NULL,
+  PRIMARY KEY  (`sub_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of subject
+-- ----------------------------
+INSERT INTO `subject` VALUES ('1', '钢琴');
+INSERT INTO `subject` VALUES ('2', '琵琶');
