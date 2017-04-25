@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="test.dao.TeacherDao">
+    <resultMap id="resultMap" type="test.entity.Teacher">
+        <result property="teacher_id" column="teacher_id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="gender" column="gender"/>
+        <result property="tele" column="tele"/>
+        <result property="email" column="email"/>
+        <result property="wxh" column="wxh"/>
+        <result property="address" column="address"/>
+        <result property="sub_id" column="sub_id"/>
+        <result property="status" column="status"/>
+        <result property="memo" column="memo"/>
+        <result property="createtime" column="createtime"/>
+    </resultMap>
+    <parameterMap id="parameterMap" type="test.entity.Teacher">
+        <parameter property="teacher_id" resultMap="resultMap"/>
+        <parameter property="name" resultMap="resultMap"/>
+        <parameter property="age" resultMap="resultMap"/>
+        <parameter property="gender" resultMap="resultMap"/>
+        <parameter property="tele" resultMap="resultMap"/>
+        <parameter property="email" resultMap="resultMap"/>
+        <parameter property="wxh" resultMap="resultMap"/>
+        <parameter property="address" resultMap="resultMap"/>
+        <parameter property="sub_id" resultMap="resultMap"/>
+        <parameter property="status" resultMap="resultMap"/>
+        <parameter property="memo" resultMap="resultMap"/>
+        <parameter property="createtime" resultMap="resultMap"/>
+    </parameterMap>
+
+    <sql id="columnSql">
+            t.teacher_id,
+            t.name,
+            t.age,
+            t.gender,
+            t.tele,
+            t.email,
+            t.wxh,
+            t.address,
+            t.sub_id,
+            t.status,
+            t.memo,
+            t.createtime
+
+    </sql>
+
+
+    <insert id="insertTeacher" parameterMap="parameterMap">
+        INSERT INTO teacher (
+        teacher_id,name,age,gender,tele,email,wxh,address,sub_id,status,memo,createtime
+        )
+        VALUES (#{teacher_id},#{name},#{age},#{gender},#{tele},#{email},#{wxh},#{address},#{sub_id},#{status},#{memo},#{createtime})
+    </insert>
+
+    <select id="listTeacher" resultType="test.entity.Teacher" parameterType="int">
+        SELECT
+        <include refid="columnSql"/>,s.sub_name
+        FROM teacher t
+        LEFT JOIN subject s
+        ON s.sub_id=t.sub_id
+        WHERE t.status=#{_parameter}
+    </select>
+
+    <select id="countTeacher" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM teacher WHERE status=#{_parameter}
+    </select>
+
+    <select id="allSub" resultType="test.entity.Subject">
+        SELECT * FROM subject
+    </select>
+</mapper>
