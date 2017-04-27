@@ -30,7 +30,16 @@
                             return val;
                         }
                     },
-                    {field: 'age', title: '年龄', width: 50},
+                    {
+                        field: 'age', title: '年龄', width: 50,
+                        formatter: function (value, row, index) {
+                            if (value == 0) {
+                                return;
+                            } else {
+                                return value;
+                            }
+                        }
+                    },
                     {
                         field: 'gender', title: '性别', width: 50,
                         formatter: function (value, row, index) {

@@ -54,12 +54,11 @@ CREATE TABLE `sys_menus` (
 -- Records of sys_menus
 -- ----------------------------
 INSERT INTO `sys_menus` VALUES ('1', '账户管理', '0', '#', '1');
-INSERT INTO `sys_menus` VALUES ('2', '2222', '0', '#', '2');
+INSERT INTO `sys_menus` VALUES ('2', '教师模块', '0', '#', '2');
 INSERT INTO `sys_menus` VALUES ('3', '测试2', '0', '#', '3');
-INSERT INTO `sys_menus` VALUES ('21', '2222-1', '2', '44444444', '1');
+INSERT INTO `sys_menus` VALUES ('21', '教师列表', '2', 'teacher/tolistteacher', '1');
 INSERT INTO `sys_menus` VALUES ('211', '2222-1-1', '211', 'sssssssssssss', '1');
 INSERT INTO `sys_menus` VALUES ('11', '账户信息', '1', 'account/toshowaccountinfo', '1');
-
 -- ----------------------------
 -- Table structure for subject
 -- ----------------------------

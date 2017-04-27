@@ -56,7 +56,6 @@
                 dataType:'json',
                 data: $('#addTeacher').serialize(),
                 success: function (result) {
-                    alert(result)
                     if (result=='true') {
                         mframe.reload();
                         cancel();
@@ -86,47 +85,47 @@
     <table>
         <tr>
             <td>姓名:</td>
-            <td><input name="name" class="easyui-textbox" style="width:80px"
+            <td><input name="name" class="easyui-textbox" style="width:120px"
                        data-options="required:true,validType:'name'"></td>
         </tr>
         <tr>
             <td>年龄:</td>
-            <td><input name="age" class="easyui-textbox" style="width:80px"
+            <td><input name="age" class="easyui-textbox" style="width:120px"
                        data-options="validType:'age'"></td>
         </tr>
         <tr>
             <td>性别:</td>
-            <td><select id="gender" class="easyui-combobox" name="gender" style="width:80px;">
+            <td><select id="gender" class="easyui-combobox" name="gender" style="width:120px;">
                 <option value="1">男</option>
                 <option value="2">女</option>
             </select></td>
         </tr>
         <tr>
             <td>手机:</td>
-            <td><input name="tele" class="easyui-textbox" style="width:80px"
+            <td><input name="tele" class="easyui-textbox" style="width:120px"
                        data-options="validType:'mobile'"></td>
         </tr>
         <tr>
             <td>邮箱:</td>
-            <td><input name="email" class="easyui-textbox" style="width:80px"
+            <td><input name="email" class="easyui-textbox" style="width:120px"
                        validtype="email"></td>
         </tr>
         <tr>
             <td>微信:</td>
-            <td><input name="wxh" class="easyui-textbox" style="width:80px"
+            <td><input name="wxh" class="easyui-textbox" style="width:120px"
                        data-options="validType:'wxh'"></td>
         </tr>
         <tr>
             <td>地址:</td>
-            <td><input name="address" class="easyui-textbox" style="width:80px"></td>
+            <td><input name="address" class="easyui-textbox" style="width:120px"></td>
         </tr>
         <tr>
             <td>学科:</td>
-            <td><input id="sub" name="sub_id" data-options="required:true,editable:false,width:80"></td>
+            <td><input id="sub" name="sub_id" data-options="required:true,editable:false,width:120"></td>
         </tr>
         <tr>
             <td>备注:</td>
-            <td><textarea name="memo"></textarea></td>
+            <td><textarea name="memo" style="width: 120px;"></textarea></td>
         </tr>
         <tr>
             <td><a href="#" class="easyui-linkbutton" onclick="add()">添加</a></td>

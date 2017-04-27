@@ -77,47 +77,47 @@
 <form id="editTeacher">
     <table>
         <tr style="display: none">
-            <td><input name="teacher_id" class="easyui-textbox" style="width:80px" value="${teacher.teacher_id}"></td>
+            <td><input name="teacher_id" class="easyui-textbox" style="width:120px" value="${teacher.teacher_id}"></td>
         </tr>
         <tr>
             <td>姓名:</td>
-            <td><input name="name" class="easyui-textbox" style="width:80px" value="${teacher.name}"
+            <td><input name="name" class="easyui-textbox" style="width:120px" value="${teacher.name}"
                        data-options="required:true,validType:'name'"></td>
         </tr>
         <tr>
             <td>年龄:</td>
-            <td><input name="age" class="easyui-textbox" style="width:80px" value="${teacher.age}"
+            <td><input name="age" class="easyui-textbox" style="width:120px" value="${teacher.age}"
                        data-options="validType:'age'"></td>
         </tr>
         <tr>
             <td>性别:</td>
-            <td><select id="gender" class="easyui-combobox" name="gender" style="width:80px;">
+            <td><select id="gender" class="easyui-combobox" name="gender" style="width:120px;">
                 <option value="1">男</option>
                 <option value="2">女</option>
             </select></td>
         </tr>
         <tr>
             <td>手机:</td>
-            <td><input name="tele" class="easyui-textbox" style="width:80px" value="${teacher.tele}"
+            <td><input name="tele" class="easyui-textbox" style="width:120px" value="${teacher.tele}"
                        data-options="validType:'mobile'"></td>
         </tr>
         <tr>
             <td>邮箱:</td>
-            <td><input name="email" class="easyui-textbox" style="width:80px" value="${teacher.email}"
+            <td><input name="email" class="easyui-textbox" style="width:120px" value="${teacher.email}"
                        validtype="email"></td>
         </tr>
         <tr>
             <td>微信:</td>
-            <td><input name="wxh" class="easyui-textbox" style="width:80px" value="${teacher.wxh}"
+            <td><input name="wxh" class="easyui-textbox" style="width:120px" value="${teacher.wxh}"
                        data-options="validType:'wxh'"></td>
         </tr>
         <tr>
             <td>地址:</td>
-            <td><input name="address" class="easyui-textbox" style="width:80px" value="${teacher.address}"></td>
+            <td><input name="address" class="easyui-textbox" style="width:120px" value="${teacher.address}"></td>
         </tr>
         <tr>
             <td>学科:</td>
-            <td><select id="sub" class="easyui-combobox" name="sub_id" style="width:80px;">
+            <td><select id="sub" class="easyui-combobox" name="sub_id" style="width:120px;">
                 <c:forEach items="${allsub}" var="sub">
                     <option value="${sub.sub_id}"
                             <c:if test="${sub.sub_id==teacher.sub_id}">selected="selected"</c:if>>${sub.sub_name}</option>
@@ -126,7 +126,7 @@
         </tr>
         <tr>
             <td>备注:</td>
-            <td><textarea name="memo">${teacher.memo}</textarea></td>
+            <td><textarea name="memo" style="width: 120px;">${teacher.memo}</textarea></td>
         </tr>
         <tr>
             <td><a href="#" class="easyui-linkbutton" onclick="save()">保存</a></td>
