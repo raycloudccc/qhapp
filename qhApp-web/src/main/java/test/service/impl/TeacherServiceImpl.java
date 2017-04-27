@@ -31,7 +31,6 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public boolean insertTeacher(Teacher teacher) {
-        teacher.setTeacher_id(UUID.randomUUID().toString().replace("-",""));
         teacher.setStatus(1);
         teacher.setCreatetime(new Timestamp(System.currentTimeMillis()));
         boolean result=false;

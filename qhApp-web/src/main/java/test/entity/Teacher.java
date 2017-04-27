@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 public class Teacher implements Serializable{
 
-    private String teacher_id;
+    private Long teacherId;
     private String name;
     private Integer age;
     private int gender;
@@ -30,12 +30,12 @@ public class Teacher implements Serializable{
         this.sub_name = sub_name;
     }
 
-    public String getTeacher_id() {
-        return teacher_id;
+    public Long getTeacherId() {
+        return teacherId;
     }
 
-    public void setTeacher_id(String teacher_id) {
-        this.teacher_id = teacher_id;
+    public void setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getName() {
@@ -129,7 +129,7 @@ public class Teacher implements Serializable{
     @Override
     public String toString() {
         return "Teacher{" +
-                "teacher_id='" + teacher_id + '\'' +
+                "teacherId='" + teacherId + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", gender=" + gender +

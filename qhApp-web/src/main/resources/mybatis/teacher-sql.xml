@@ -3,7 +3,7 @@
 
 <mapper namespace="test.dao.TeacherDao">
     <resultMap id="resultMap" type="test.entity.Teacher">
-        <result property="teacher_id" column="teacher_id"/>
+        <result property="teacherId" column="teacher_id"/>
         <result property="name" column="name"/>
         <result property="age" column="age"/>
         <result property="gender" column="gender"/>
@@ -17,7 +17,7 @@
         <result property="createtime" column="createtime"/>
     </resultMap>
     <parameterMap id="parameterMap" type="test.entity.Teacher">
-        <parameter property="teacher_id" resultMap="resultMap"/>
+        <parameter property="teacherId" resultMap="resultMap"/>
         <parameter property="name" resultMap="resultMap"/>
         <parameter property="age" resultMap="resultMap"/>
         <parameter property="gender" resultMap="resultMap"/>
@@ -50,9 +50,9 @@
 
     <insert id="insertTeacher" parameterMap="parameterMap">
         INSERT INTO teacher (
-        teacher_id,name,age,gender,tele,email,wxh,address,sub_id,status,memo,createtime
+        name,age,gender,tele,email,wxh,address,sub_id,status,memo,createtime
         )
-        VALUES (#{teacher_id},#{name},#{age},#{gender},#{tele},#{email},#{wxh},#{address},#{sub_id},#{status},#{memo},#{createtime})
+        VALUES (#{name},#{age},#{gender},#{tele},#{email},#{wxh},#{address},#{sub_id},#{status},#{memo},#{createtime})
     </insert>
 
     <select id="listTeacher" resultType="test.entity.Teacher" parameterType="java.util.Map">

@@ -49,7 +49,7 @@ public class TeacherController {
     @Transactional
     public void a(){
         Teacher t=new Teacher();
-        t.setTeacher_id("1");
+        t.setTeacherId(1L);
         t.setName("noname");
         t.setGender(1);
         t.setSub_id("1");
