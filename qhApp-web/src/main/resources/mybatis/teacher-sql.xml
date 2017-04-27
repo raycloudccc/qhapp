@@ -55,13 +55,14 @@
         VALUES (#{teacher_id},#{name},#{age},#{gender},#{tele},#{email},#{wxh},#{address},#{sub_id},#{status},#{memo},#{createtime})
     </insert>
 
-    <select id="listTeacher" resultType="test.entity.Teacher" parameterType="int">
+    <select id="listTeacher" resultType="test.entity.Teacher" parameterType="java.util.Map">
         SELECT
         <include refid="columnSql"/>,s.sub_name
         FROM teacher t
         LEFT JOIN subject s
         ON s.sub_id=t.sub_id
-        WHERE t.status=#{_parameter}
+        WHERE t.status=#{status}
+        LIMIT #{start},#{end}
     </select>
 
     <select id="countTeacher" parameterType="int" resultType="int">
@@ -71,4 +72,22 @@
     <select id="allSub" resultType="test.entity.Subject">
         SELECT * FROM subject
     </select>
+
+    <select id="selectTeacherById" parameterType="string" resultType="test.entity.Teacher">
+        SELECT
+        <include refid="columnSql"/>,s.sub_name
+        FROM teacher t
+        LEFT JOIN subject s
+        ON s.sub_id=t.sub_id
+        WHERE t.teacher_id=#{_parameter}
+    </select>
+
+    <update id="updateTeacher" parameterType="test.entity.Teacher">
+        UPDATE teacher SET name=#{name},age=#{age},gender=#{gender},tele=#{tele},email=#{email},wxh=#{wxh},address=#{address},
+        sub_id=#{sub_id},memo=#{memo} WHERE teacher_id=#{teacher_id}
+    </update>
+
+    <delete id="deleteTeacher" parameterType="string">
+        DELETE from teacher WHERE teacher_id=#{_parameter}
+    </delete>
 </mapper>

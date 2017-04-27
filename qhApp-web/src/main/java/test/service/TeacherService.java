@@ -13,16 +13,17 @@ import java.util.List;
 
 public interface TeacherService {
 
-    public void insertTeacher(Teacher teacher);
+    public boolean insertTeacher(Teacher teacher);
 
-    public void deleteTeacher(Teacher teacher);
+    public boolean deleteTeacher(String arr);
 
-    public void updateTeacher(Teacher teacher);
+    public boolean updateTeacher(Teacher teacher);
 
     public Teacher selectTeacherById(String teacher_id);
 
-    public JSONObject listTeacher(int status);
+    public JSONObject listTeacher(String pageNo,String pageSize,int status);
 
     public List<Subject> allSub();
+
 
 }
