@@ -1,4 +1,4 @@
-package test.utils;
+package com.noname.qh.utils;
 
 import org.springframework.stereotype.Component;
 

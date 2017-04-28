@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="test.dao.MenuDao">
-    <parameterMap id="parameterMap" type="test.entity.Menu"></parameterMap>
-    <resultMap id="resultMap" type="test.entity.Menu">
+<mapper namespace="com.noname.qh.dao.MenuDao">
+    <parameterMap id="parameterMap" type="com.noname.qh.entity.Menu"></parameterMap>
+    <resultMap id="resultMap" type="com.noname.qh.entity.Menu">
         <result property="menu_id" column="menu_id"/>
         <result property="menu_name" column="menu_name"/>
         <result property="parent_id" column="parent_id"/>

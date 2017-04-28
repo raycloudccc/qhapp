@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="test.dao.TeacherDao">
-    <resultMap id="resultMap" type="test.entity.Teacher">
+<mapper namespace="com.noname.qh.dao.TeacherDao">
+    <resultMap id="resultMap" type="com.noname.qh.entity.Teacher">
         <result property="teacherId" column="teacher_id"/>
         <result property="name" column="name"/>
         <result property="age" column="age"/>
@@ -16,7 +16,7 @@
         <result property="memo" column="memo"/>
         <result property="createtime" column="createtime"/>
     </resultMap>
-    <parameterMap id="parameterMap" type="test.entity.Teacher">
+    <parameterMap id="parameterMap" type="com.noname.qh.entity.Teacher">
         <parameter property="teacherId" resultMap="resultMap"/>
         <parameter property="name" resultMap="resultMap"/>
         <parameter property="age" resultMap="resultMap"/>
@@ -55,7 +55,7 @@
         VALUES (#{name},#{age},#{gender},#{tele},#{email},#{wxh},#{address},#{sub_id},#{status},#{memo},#{createtime})
     </insert>
 
-    <select id="listTeacher" resultType="test.entity.Teacher" parameterType="java.util.Map">
+    <select id="listTeacher" resultMap="resultMap" parameterType="java.util.Map">
         SELECT
         <include refid="columnSql"/>,s.sub_name
         FROM teacher t
@@ -69,11 +69,11 @@
         SELECT COUNT(*) FROM teacher WHERE status=#{_parameter}
     </select>
 
-    <select id="allSub" resultType="test.entity.Subject">
+    <select id="allSub" resultType="com.noname.qh.entity.Subject">
         SELECT * FROM subject
     </select>
 
-    <select id="selectTeacherById" parameterType="string" resultType="test.entity.Teacher">
+    <select id="selectTeacherById" parameterType="Long" resultMap="resultMap">
         SELECT
         <include refid="columnSql"/>,s.sub_name
         FROM teacher t
@@ -82,7 +82,7 @@
         WHERE t.teacher_id=#{_parameter}
     </select>
 
-    <update id="updateTeacher" parameterType="test.entity.Teacher">
+    <update id="updateTeacher" parameterType="com.noname.qh.entity.Teacher">
         UPDATE teacher SET name=#{name},age=#{age},gender=#{gender},tele=#{tele},email=#{email},wxh=#{wxh},address=#{address},
         sub_id=#{sub_id},memo=#{memo} WHERE teacher_id=#{teacher_id}
     </update>

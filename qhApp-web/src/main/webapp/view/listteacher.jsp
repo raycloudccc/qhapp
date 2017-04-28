@@ -26,7 +26,7 @@
                     {
                         field: 'name', title: '姓名', width: 80,
                         formatter: function (value, row, index) {
-                            var val = '<a href="#" onclick="edit(\'' + row.teacher_id + '\')">' + value + '</a>';
+                            var val = '<a href="#" onclick="edit(\'' + row.teacherId + '\')">' + value + '</a>';
                             return val;
                         }
                     },
@@ -60,9 +60,9 @@
             });
         });
 
-        function edit(teacher_id) {
+        function edit(teacherId) {
             var data = {
-                'teacher_id': teacher_id
+                'teacher_id': teacherId
             }
             parent.openWithWin("编辑教师", 'teacher/toUpdateTeacher', data, 250, 370);
         }
