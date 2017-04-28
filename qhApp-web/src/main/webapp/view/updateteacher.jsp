@@ -77,7 +77,7 @@
 <form id="editTeacher">
     <table>
         <tr style="display: none">
-            <td><input name="teacher_id" class="easyui-textbox" style="width:120px" value="${teacher.teacher_id}"></td>
+            <td><input name="teacherId" class="easyui-textbox" style="width:120px" value="${teacher.teacherId}"></td>
         </tr>
         <tr>
             <td>姓名:</td>
@@ -93,7 +93,7 @@
             <td>性别:</td>
             <td><select id="gender" class="easyui-combobox" name="gender" style="width:120px;">
                 <option value="1">男</option>
-                <option value="2">女</option>
+                <option value="2" <c:if test="${teacher.gender==2}">selected="selected"</c:if>>女</option>
             </select></td>
         </tr>
         <tr>

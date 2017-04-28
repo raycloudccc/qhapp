@@ -62,6 +62,7 @@
         LEFT JOIN subject s
         ON s.sub_id=t.sub_id
         WHERE t.status=#{status}
+        <if test="name!='' and value!='%%'">AND ${name} LIKE #{value}</if>
         LIMIT #{start},#{end}
     </select>
 
@@ -84,7 +85,7 @@
 
     <update id="updateTeacher" parameterType="com.noname.qh.entity.Teacher">
         UPDATE teacher SET name=#{name},age=#{age},gender=#{gender},tele=#{tele},email=#{email},wxh=#{wxh},address=#{address},
-        sub_id=#{sub_id},memo=#{memo} WHERE teacher_id=#{teacher_id}
+        sub_id=#{sub_id},memo=#{memo} WHERE teacher_id=#{teacherId}
     </update>
 
     <delete id="deleteTeacher" parameterType="string">

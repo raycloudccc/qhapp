@@ -67,12 +67,13 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public JSONObject listTeacher(String pageNo,String pageSize,int status) {
+    public JSONObject listTeacher(String pageNo,String pageSize,int status,String name,String value) {
         int total = teacherDao.countTeacher(status);
         Map<String,Object> map=new HashMap<>();
         map.put("status",status);
+        map.put("name",name);
+        map.put("value","%"+value+"%");
         pageHelper.autoPage(pageNo,pageSize,map);
-        System.out.println("map:"+map);
         List<Teacher> teacherList = teacherDao.listTeacher(map);
         return dataGridUtils.parseJSON(total, teacherList);
     }

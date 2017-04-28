@@ -19,8 +19,14 @@
                 rownumbers: true,
                 singleSelect: false,
                 pagination: true,
+                pageSize:50,
                 footer: $('#fb'),
                 url: 'getTeacherList',
+                toolbar:$('#search'),
+                queryParams: {
+                    name: '',
+                    value: ''
+                },
                 columns: [[
                     {field: 'action', title: '', width: 100, checkbox: true},
                     {
@@ -81,42 +87,58 @@
             var arr = [];
             var rows = $('#tt').datagrid('getSelections');
             $(rows).each(function () {
-                arr.push(this.teacher_id);
+                arr.push(this.teacherId);
             });
-            var arrs = arr.join("&");
-            $.ajax({
-                url: 'deleteTeacher',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    arrs: arrs
-                },
+                var arrs = arr.join("&");
+                $.ajax({
+                    url: 'deleteTeacher',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        arrs: arrs
+                    },
 
-                success: function (result) {
-                    alert(result)
-                    if (result == true) {
-                        reload();
-                        cancel();
-                        $.messager.show({
-                            title: '操作提示',
-                            msg: '删除成功',
-                            timeout: 2000,
-                            showType: 'slide'
-                        });
-                    } else {
-                        $.messager.alert('操作提示', '修改失败', '');
+                    success: function (result) {
+                        if (result == true) {
+                            reload();
+                            cancel();
+                            $.messager.show({
+                                title: '操作提示',
+                                msg: '删除成功',
+                                timeout: 2000,
+                                showType: 'slide'
+                            });
+                        } else {
+                            $.messager.alert('操作提示', '修改失败', '');
+                        }
                     }
-                }
-            });
+                });
+
         }
 
         function cancel() {
             $('#w').window('close');
         }
 
+        //教师查询，通过指定字段查询，name:字段名称，value：用户输入值
+        function qq(value, name) {
+            $('#tt').datagrid('load', {
+                'name': name,
+                'value': value
+            });
+        }
+
     </script>
 </head>
 <body>
+<div id="search">
+    <input id="ss" class="easyui-searchbox" style="width:300px"
+           data-options="searcher:qq,prompt:'请输入需要搜索的内容',menu:'#mm'"></input>
+    <div id="mm" style="width:120px">
+        <div data-options="name:'name'">姓名</div>
+        <div data-options="name:'sub_name'">学科</div>
+    </div>
+</div>
 <table id="tt"></table>
 <div id="fb">
     <a href="#" class="easyui-linkbutton" onclick="add()">添加</a>

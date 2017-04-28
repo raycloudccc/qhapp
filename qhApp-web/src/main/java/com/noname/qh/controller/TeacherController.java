@@ -23,31 +23,28 @@ import java.util.List;
 @RequestMapping("/teacher")
 public class TeacherController {
 
-    @Resource(name="TeacherService")
+    @Resource(name = "TeacherService")
     private TeacherService teacherService;
-    @Resource(name="PageHelper")
+    @Resource(name = "PageHelper")
     private PageHelper pageHelper;
 
 
     @RequestMapping("tolistteacher")
-    public String toListTeacher(){
+    public String toListTeacher() {
         return "listteacher";
     }
 
     @RequestMapping("getTeacherList")
     @ResponseBody
-    public JSONObject getTeacherList(@RequestParam("page") String pageNo,@RequestParam("rows") String pageSize){
-        System.out.println("no:"+pageNo);
-        System.out.println("size:"+pageSize);
-        return teacherService.listTeacher(pageNo,pageSize,1);
+    public JSONObject getTeacherList(@RequestParam("page") String pageNo, @RequestParam("rows") String pageSize, @RequestParam("name") String name, @RequestParam("value") String value) {
+        return teacherService.listTeacher(pageNo, pageSize, 1, name, value);
     }
-
 
 
     @RequestMapping("insertTeacher")
     @Transactional
-    public void a(){
-        Teacher t=new Teacher();
+    public void a() {
+        Teacher t = new Teacher();
         t.setTeacherId(1L);
         t.setName("noname");
         t.setGender(1);
@@ -59,30 +56,31 @@ public class TeacherController {
 
     @RequestMapping("allSub")
     @ResponseBody
-    public List<Subject> allSub(){
+    public List<Subject> allSub() {
         return teacherService.allSub();
     }
 
     @RequestMapping("toUpdateTeacher")
-    public String toUpdateTeacher(@RequestParam("teacher_id") String teacher_id, ModelMap model){
-        Teacher teacher=teacherService.selectTeacherById(Long.valueOf(teacher_id));
-        List<Subject> allSub=teacherService.allSub();
-        model.put("teacher",teacher);
-        model.put("allsub",allSub);
+    public String toUpdateTeacher(@RequestParam("teacher_id") String teacher_id, ModelMap model) {
+        Teacher teacher = teacherService.selectTeacherById(Long.valueOf(teacher_id));
+        List<Subject> allSub = teacherService.allSub();
+        model.put("teacher", teacher);
+        model.put("allsub", allSub);
         return "updateteacher";
     }
 
     @RequestMapping("updateTeacher")
     @Transactional
     @ResponseBody
-    public boolean updateTeacher(Teacher  teacher){
+    public boolean updateTeacher(Teacher teacher) {
+        System.out.println("teacher:" + teacher);
         return teacherService.updateTeacher(teacher);
     }
 
     @RequestMapping("toAddTeacher")
-    public String toAddTeacher(ModelMap model){
-        List<Subject> allSub=teacherService.allSub();
-        model.put("allsub",allSub);
+    public String toAddTeacher(ModelMap model) {
+        List<Subject> allSub = teacherService.allSub();
+        model.put("allsub", allSub);
         return "addteacher";
     }
 
@@ -90,22 +88,22 @@ public class TeacherController {
     @RequestMapping("addTeacher")
     @ResponseBody
     @Transactional
-    public boolean addTeacher(Teacher teacher){
+    public boolean addTeacher(Teacher teacher) {
         return teacherService.insertTeacher(teacher);
     }
 
     @RequestMapping("getAllSub")
     @ResponseBody
-    public JSONArray getAllSub(){
-        List<Subject> subs=teacherService.allSub();
-        JSONArray arr=new JSONArray();
+    public JSONArray getAllSub() {
+        List<Subject> subs = teacherService.allSub();
+        JSONArray arr = new JSONArray();
         return arr.fromObject(subs);
     }
 
     @RequestMapping("deleteTeacher")
     @ResponseBody
     @Transactional
-    public boolean deleteTeacher(@RequestParam("arrs") String arrs){
+    public boolean deleteTeacher(@RequestParam("arrs") String arrs) {
         return teacherService.deleteTeacher(arrs);
     }
 

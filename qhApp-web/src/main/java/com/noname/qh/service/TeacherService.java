@@ -20,7 +20,7 @@ public interface TeacherService {
 
     public Teacher selectTeacherById(Long teacher_id);
 
-    public JSONObject listTeacher(String pageNo, String pageSize, int status);
+    public JSONObject listTeacher(String pageNo, String pageSize, int status,String name,String value);
 
     public List<Subject> allSub();
 
