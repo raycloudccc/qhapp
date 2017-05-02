@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>教师列表</title>
@@ -20,7 +21,6 @@
                 singleSelect: false,
                 pagination: true,
                 pageSize:50,
-                footer: $('#fb'),
                 url: 'getTeacherList',
                 toolbar:$('#search'),
                 queryParams: {
@@ -138,11 +138,10 @@
         <div data-options="name:'name'">姓名</div>
         <div data-options="name:'sub_name'">学科</div>
     </div>
-</div>
-<table id="tt"></table>
-<div id="fb">
-    <a href="#" class="easyui-linkbutton" onclick="add()">添加</a>
+
+    <a href="#" class="easyui-linkbutton" onclick="add()" style="margin-left: 15px">添加</a>
     <a href="#" class="easyui-linkbutton" onclick="dele()">删除</a>
 </div>
+<table id="tt"></table>
 </body>
 </html>
