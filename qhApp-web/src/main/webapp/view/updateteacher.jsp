@@ -130,11 +130,12 @@
             <td>备注:</td>
             <td><textarea name="memo" style="width: 120px;">${teacher.memo}</textarea></td>
         </tr>
-        <tr>
-            <td><a href="#" class="easyui-linkbutton" onclick="save()">保存</a></td>
-            <td><a href="#" class="easyui-linkbutton" onclick="cancel()">取消</a></td>
-        </tr>
+
     </table>
+    <div style="margin-left: 50px;">
+        <a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
+        <a href="#" class="easyui-linkbutton" onclick="cancel()">取消</a>
+    </div>
 </form>
 </body>
 </html>
