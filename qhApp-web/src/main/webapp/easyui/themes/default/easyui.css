@@ -441,6 +441,7 @@
   width: 32px;
 }
 .l-btn {
+  margin-left:10px;
   color: #444;
   background: #fafafa;
   background-repeat: repeat-x;
