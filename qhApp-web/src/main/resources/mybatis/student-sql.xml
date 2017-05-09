@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.noname.qh.dao.StudentDao">
+    <resultMap id="student" type="com.noname.qh.entity.Student">
+        <result column="stu_id" property="stuId"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="gender" property="gender"/>
+        <result column="tele" property="tele"/>
+        <result column="wxh" property="wxh"/>
+        <result column="address" property="address"/>
+        <result column="status" property="status"/>
+        <result column="memo" property="memo"/>
+        <result column="enroldate" property="enroldate"/>
+        <result column="createtime" property="createtime"/>
+    </resultMap>
+    <sql id="studentfield">
+        stu_id,
+        name,
+        age,
+        gender,
+        tele,
+        wxh,
+        address,
+        status,
+        memo,
+        enroldate,
+        createtime
+    </sql>
+
+    <select id="getStudentList" parameterType="java.util.Map" resultMap="student">
+        SELECT
+        <include refid="studentfield"></include>
+        FROM student WHERE status=#{status}
+        <if test="name!='' and value!=''">AND ${name} LIKE #{value}</if>
+        LIMIT #{start},#{end}
+    </select>
+
+    <select id="countStudent" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM student WHERE status=#{_parameter}
+    </select>
+
+    <select id="getStudentInfo" parameterType="string" resultMap="student">
+        SELECT
+        <include refid="studentfield"/>
+        FROM student WHERE stu_id=#{_parameter}
+    </select>
+
+    <update id="updateStudent" parameterType="com.noname.qh.entity.Student">
+        UPDATE student set name=#{name},age=#{age},gender=#{gender},tele=#{tele},wxh=#{wxh},address=#{address},
+        memo=#{memo},enroldate=#{enroldate} WHERE stu_id=#{stuId}
+    </update>
+
+    <insert id="addStudent" parameterType="com.noname.qh.entity.Student">
+        INSERT INTO student (stu_id,name,age,gender,tele,wxh,address,status,memo,enroldate,createtime) values(
+        #{stuId},#{name},#{age},#{gender},#{tele},#{wxh},#{address},#{status},#{memo},#{enroldate},#{createtime})
+    </insert>
+
+    <delete id="deleteStudent" parameterType="string">
+        DELETE FROM student WHERE stu_id=#{_parameter}
+    </delete>
+</mapper>

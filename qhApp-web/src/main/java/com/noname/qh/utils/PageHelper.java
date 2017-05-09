@@ -9,6 +9,12 @@ import java.util.Map;
  */
 @Component("PageHelper")
 public class PageHelper {
+    /**
+     * 自动分页
+     * @param pageNo 当前的页数
+     * @param pageSize  单页的数据条数
+     * @param map  需要添加前两个数据的map
+     */
     public void autoPage(String pageNo, String pageSize, Map map){
         int pagesize = parseIntValue(pageSize, -1);
         if (pagesize <= 0) {

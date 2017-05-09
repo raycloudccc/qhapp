@@ -96,3 +96,42 @@ CREATE TABLE `teacher` (
   UNIQUE KEY `teacher_id` USING HASH (`teacher_id`),
   KEY `name` USING HASH (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+-- ----------------------------
+-- Table structure for student
+-- ----------------------------
+DROP TABLE IF EXISTS `student`;
+CREATE TABLE `student` (
+  `stu_id` bigint(20) NOT NULL auto_increment,
+  `name` varchar(40) NOT NULL,
+  `age` int(11) default NULL,
+  `gender` int(11) NOT NULL,
+  `tele` varchar(100) default NULL,
+  `wxh` varchar(100) default NULL,
+  `address` varchar(255) default NULL,
+  `status` int(11) NOT NULL,
+  `memo` varchar(255) default NULL,
+  `enroldate` date NOT NULL COMMENT '入学日期',
+  `createtime` timestamp NOT NULL default '0000-00-00 00:00:00' on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`stu_id`),
+  UNIQUE KEY `stu_id` USING HASH (`stu_id`),
+  KEY `name` USING HASH (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of student
+-- ----------------------------
+INSERT INTO `student` VALUES ('1', '顾振', '11', '1', '15921555000', 'haiwopiappiaoquan', '上海市松江区', '1', '屌的很有意境', '2017-05-01', '2017-05-08 16:22:14');
+INSERT INTO `student` VALUES ('2', '奥神', '22', '1', '13511111111', 'aoshen', '222', '1', '影魔', '2017-05-01', '2017-05-09 10:26:20');
+INSERT INTO `student` VALUES ('3', '王海晨', '16', '1', '15921111111', 'laowang', '上海市', '1', '花母鸡', '2017-05-08', '2017-05-08 17:20:43');
+INSERT INTO `student` VALUES ('5', '起飞', null, '1', '', '', '', '1', '', '2017-05-01', '2017-05-09 10:27:04');
+INSERT INTO `student` VALUES ('6', '降落', null, '1', '', '', '', '1', '', '2017-05-10', '2017-05-09 10:27:11');
+INSERT INTO `student` VALUES ('7', '一群小杂鱼', null, '1', '', '', '', '1', '', '2017-05-11', '2017-05-09 10:27:21');
+INSERT INTO `student` VALUES ('8', '蹬狗腿', null, '2', '', '', '', '1', '', '2017-05-02', '2017-05-09 10:27:39');
+INSERT INTO `student` VALUES ('9', '不爱夜蒲', null, '1', '', '', '', '1', '', '2017-05-18', '2017-05-09 10:28:08');
+INSERT INTO `student` VALUES ('10', '一路向南', null, '1', '', '', '', '1', '', '2017-05-17', '2017-05-09 10:28:26');
+INSERT INTO `student` VALUES ('11', '银瓶梅', null, '1', '', '', '', '1', '', '2017-05-18', '2017-05-09 10:28:47');
+INSERT INTO `student` VALUES ('12', '锡角大王', null, '1', '', '', '', '1', '', '2017-05-18', '2017-05-09 10:29:03');
+INSERT INTO `student` VALUES ('13', '敲锣打屌', null, '1', '', '', '', '1', '', '2017-05-10', '2017-05-09 10:29:55');
+
