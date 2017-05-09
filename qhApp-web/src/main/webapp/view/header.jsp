@@ -101,14 +101,14 @@ textarea {
 
 .tree-folder {
 	display: inline-block;
-	background: url('images/right.gif') no-repeat 4px 5px;
+	background: url('../images/right.gif') no-repeat 4px 5px;
 	width: 16px;
 	height: 18px;
 	vertical-align: bottom;
 }
 
 .tree-folder-open {
-	background: url('images/down.gif') no-repeat 4px 6px;
+	background: url('../images/down.gif') no-repeat 4px 6px;
 	width: 16px;
 	height: 18px;
 	vertical-align: bottom;
@@ -116,18 +116,18 @@ textarea {
 
 .tree-file {
 	display: inline-block;
-	background: url('images/envvar_obj.gif') no-repeat 1px 3px;
+	background: url('../images/envvar_obj.gif') no-repeat 1px 3px;
 	width: 16px;
 	height: 18px;
 	vertical-align: bottom;
 }
 
 .home_icon {
-	background: url('images/brkp_type.gif') no-repeat;
+	background: url('../images/brkp_type.gif') no-repeat;
 }
 
 #header{
-	background-image: url('images/h_1.jpg');
+	background-image: url('../images/h_1.jpg');
 	height:30px;
 }
 #header a{
@@ -136,7 +136,7 @@ textarea {
 	color: #FFFFFF;
 }
 #navi{
-	background-image: url('images/h_2.jpg');
+	background-image: url('../images/h_2.jpg');
 	height:67px;
 	/*background-position:0 -2;*/
 	background-repeat: repeat;

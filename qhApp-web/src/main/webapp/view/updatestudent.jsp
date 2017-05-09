@@ -12,7 +12,7 @@
 <html>
 <head>
     <style type="text/css">
-        div{
+        .field{
             margin-bottom:5px;
         }
 
@@ -86,36 +86,36 @@
     <div style="display:none"><input name="stuId" class="easyui-textbox" style="width:120px"
                                      value="${stu.stuId}">
     </div>
-    <div>姓名:
+    <div class="field">姓名:
         <input name="name" class="easyui-textbox" style="width:120px" value="${stu.name}"
                data-options="required:true,validType:'name'">
     </div>
-    <div>年龄:
+    <div class="field">年龄:
         <input name="age" class="easyui-textbox" style="width:120px" value="${stu.age}"
                data-options="validType:'age'">
     </div>
-    <div>性别:
+    <div class="field">性别:
         <select id="gender" class="easyui-combobox" name="gender" style="width:120px;">
             <option value="1">男</option>
             <option value="2" <c:if test="${stu.gender==2}">selected="selected"</c:if>>女</option>
         </select>
     </div>
-    <div>手机:
+    <div class="field">手机:
         <input name="tele" class="easyui-textbox" style="width:120px" value="${stu.tele}"
                data-options="validType:'mobile'">
     </div>
-    <div>微信:
+    <div class="field">微信:
         <input name="wxh" class="easyui-textbox" style="width:120px" value="${stu.wxh}"
                data-options="validType:'wxh'">
     </div>
-    <div>地址:
+    <div class="field">地址:
         <input name="address" class="easyui-textbox" style="width:120px" value="${stu.address}"
                data-options="">
     </div>
-    <div>备注:
+    <div class="field">备注:
         <textarea name="memo" style="width: 120px">${stu.memo}</textarea>
     </div>
-    <div>入学日期:
+    <div class="field">入学日期:
         <input name="enroldate" type= "text" class= "easyui-datebox" required ="required" value="${stu.enroldate}" data-options="width:100"> </input>
     </div>
 

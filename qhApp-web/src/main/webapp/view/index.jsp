@@ -39,13 +39,13 @@
 
 	.tree-folder{
 		display:inline-block;
-		background:url('images/right.gif') no-repeat 4px 5px;
+		background:url('../images/right.gif') no-repeat 4px 5px;
 		width:16px;
 		height:18px;
 		vertical-align:bottom;
 	}
 	.tree-folder-open{
-		background:url('images/down.gif') no-repeat 4px 6px;
+		background:url('../images/down.gif') no-repeat 4px 6px;
 		width:16px;
 		height:18px;
 		vertical-align:bottom;
@@ -53,17 +53,17 @@
 
 	.tree-file{
 		display:inline-block;
-		background:url('images/envvar_obj.gif') no-repeat 1px 2px;
+		background:url('../images/envvar_obj.gif') no-repeat 1px 2px;
 		width:16px;
 		height:18px;
 		vertical-align:bottom;
 	}
 
 	.home_icon{
-		background:url('images/brkp_type.gif') no-repeat;
+		background:url('../images/brkp_type.gif') no-repeat;
 	}
 	.header{
-		background:url('images/bg.jpg') repeat-x;
+		background:url('../images/bg.jpg') repeat-x;
 	}
 	.mylink{
 		text-decoration:none;
