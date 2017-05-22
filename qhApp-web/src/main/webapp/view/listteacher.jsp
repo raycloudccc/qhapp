@@ -60,7 +60,7 @@
                     {field: 'email', title: '邮箱', width: 130},
                     {field: 'wxh', title: '微信', width: 120},
                     {field: 'address', title: '联系地址', width: 200},
-                    {field: 'sub_name', title: '学科', width: 60},
+                    {field: 'subName', title: '学科', width: 200},
                     {field: 'memo', title: '备注', width: 200}
                 ]]
             });
@@ -133,13 +133,14 @@
 <body>
 <div id="search">
     <input id="ss" class="easyui-searchbox" style="width:300px"
-           data-options="searcher:qq,prompt:'请输入需要搜索的内容',menu:'#mm'"></input>
+           data-options="searcher:qq,prompt:'请输入需要搜索的内容',menu:'#mm'">
+    </input>
     <div id="mm" style="width:120px">
         <div data-options="name:'name'">姓名</div>
-        <div data-options="name:'sub_name'">学科</div>
+        <div data-options="name:'subName'">学科</div>
     </div>
 
-    <a href="#" class="easyui-linkbutton" onclick="add()" style="margin-left: 15px">添加</a>
+    <a href="#" class="easyui-linkbutton" onclick="add()" style="margin-left:15px">添加</a>
     <a href="#" class="easyui-linkbutton" onclick="dele()">删除</a>
 </div>
 <table id="tt"></table>

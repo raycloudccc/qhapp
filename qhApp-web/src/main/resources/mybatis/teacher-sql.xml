@@ -11,7 +11,7 @@
         <result property="email" column="email"/>
         <result property="wxh" column="wxh"/>
         <result property="address" column="address"/>
-        <result property="sub_id" column="sub_id"/>
+        <result property="subId" column="sub_id"/>
         <result property="status" column="status"/>
         <result property="memo" column="memo"/>
         <result property="createtime" column="createtime"/>
@@ -25,7 +25,7 @@
         <parameter property="email" resultMap="resultMap"/>
         <parameter property="wxh" resultMap="resultMap"/>
         <parameter property="address" resultMap="resultMap"/>
-        <parameter property="sub_id" resultMap="resultMap"/>
+        <parameter property="subId" resultMap="resultMap"/>
         <parameter property="status" resultMap="resultMap"/>
         <parameter property="memo" resultMap="resultMap"/>
         <parameter property="createtime" resultMap="resultMap"/>
@@ -40,55 +40,85 @@
             t.email,
             t.wxh,
             t.address,
-            t.sub_id,
             t.status,
             t.memo,
             t.createtime
-
     </sql>
 
 
     <insert id="insertTeacher" parameterMap="parameterMap">
         INSERT INTO teacher (
-        name,age,gender,tele,email,wxh,address,sub_id,status,memo,createtime
+        name,age,gender,tele,email,wxh,address,status,memo,createtime
         )
-        VALUES (#{name},#{age},#{gender},#{tele},#{email},#{wxh},#{address},#{sub_id},#{status},#{memo},#{createtime})
+        VALUES (#{name},#{age},#{gender},#{tele},#{email},#{wxh},#{address},#{status},#{memo},#{createtime})
+        <selectKey keyProperty="teacherId" order="AFTER" resultType="long">
+            select last_insert_id()
+        </selectKey>
     </insert>
 
     <select id="listTeacher" resultMap="resultMap" parameterType="java.util.Map">
         SELECT
-        <include refid="columnSql"/>,s.sub_name
+        <include refid="columnSql"/>
         FROM teacher t
-        LEFT JOIN subject s
-        ON s.sub_id=t.sub_id
         WHERE t.status=#{status}
-        <if test="name!='' and value!='%%'">AND ${name} LIKE #{value}</if>
+        <if test="name=='name' and value!='%%'">AND ${name} LIKE #{value}</if>
+        ORDER BY t.createtime
         LIMIT #{start},#{end}
     </select>
 
-    <select id="countTeacher" parameterType="int" resultType="int">
-        SELECT COUNT(*) FROM teacher WHERE status=#{_parameter}
+    <select id="countTeacher" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*) FROM teacher WHERE status=#{status}
+        <if test="name=='name' and value!='%%'">AND name LIKE #{value}</if>
     </select>
 
     <select id="allSub" resultType="com.noname.qh.entity.Subject">
-        SELECT * FROM subject
+        SELECT sub_id subId,sub_name subName,create_time createtime FROM subject
     </select>
 
     <select id="selectTeacherById" parameterType="Long" resultMap="resultMap">
         SELECT
-        <include refid="columnSql"/>,s.sub_name
+        <include refid="columnSql"/>
         FROM teacher t
-        LEFT JOIN subject s
-        ON s.sub_id=t.sub_id
         WHERE t.teacher_id=#{_parameter}
     </select>
 
     <update id="updateTeacher" parameterType="com.noname.qh.entity.Teacher">
         UPDATE teacher SET name=#{name},age=#{age},gender=#{gender},tele=#{tele},email=#{email},wxh=#{wxh},address=#{address},
-        sub_id=#{sub_id},memo=#{memo} WHERE teacher_id=#{teacherId}
+        memo=#{memo} WHERE teacher_id=#{teacherId}
     </update>
 
     <delete id="deleteTeacher" parameterType="string">
         DELETE from teacher WHERE teacher_id=#{_parameter}
     </delete>
+
+    <select id="getSubInfo" parameterType="java.util.Map" resultType="com.noname.qh.entity.SubjectRelation">
+        SELECT a.rela_id relaId,a.obj_id objId,a.sub_id subId,a.sub_flag subFlag,a.create_time createtime ,b.sub_name subName FROM subject_relation AS a
+        LEFT JOIN subject AS b
+        ON a.sub_id=b.sub_id
+        WHERE a.obj_id=#{teacherid} AND a.sub_flag=#{flag}
+    </select>
+
+    <select id="countTeacherBySub" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*) FROM subject_relation AS a
+        LEFT JOIN subject AS b
+        ON a.sub_id=b.sub_id
+        WHERE b.sub_name LIKE #{subName} AND a.sub_flag=#{flag}
+    </select>
+
+    <select id="getTeacherListBySubName" parameterType="java.util.Map" resultType="long">
+        SELECT a.obj_id FROM subject_relation AS a
+        LEFT JOIN subject AS b
+        ON a.sub_id=b.sub_id
+        WHERE b.sub_name LIKE #{value} AND a.sub_flag=#{flag}
+    </select>
+
+    <insert id="insertSubjectRelation" parameterType="com.noname.qh.entity.SubjectRelation">
+        INSERT INTO subject_relation (obj_id,sub_id,sub_flag,create_time) VALUES(#{objId},#{subId},#{subFlag},#{createtime})
+    </insert>
+
+    <delete id="deleteSubjectRelation" parameterType="java.util.Map">
+        delete from subject_relation where obj_id=#{teacherId} and sub_flag=#{subFlag}
+    </delete>
+
+
 </mapper>

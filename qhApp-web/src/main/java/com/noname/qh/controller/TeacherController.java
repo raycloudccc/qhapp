@@ -3,6 +3,7 @@ package com.noname.qh.controller;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.noname.qh.service.TeacherService;
 import com.noname.qh.utils.PageHelper;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -40,20 +42,6 @@ public class TeacherController {
         return teacherService.listTeacher(pageNo, pageSize, 1, name, value);
     }
 
-
-    @RequestMapping("insertTeacher")
-    @Transactional
-    public void a() {
-        Teacher t = new Teacher();
-        t.setTeacherId(1L);
-        t.setName("noname");
-        t.setGender(1);
-        t.setSub_id("1");
-        t.setStatus(1);
-        teacherService.insertTeacher(t);
-
-    }
-
     @RequestMapping("allSub")
     @ResponseBody
     public List<Subject> allSub() {
@@ -61,8 +49,8 @@ public class TeacherController {
     }
 
     @RequestMapping("toUpdateTeacher")
-    public String toUpdateTeacher(@RequestParam("teacher_id") String teacher_id, ModelMap model) {
-        Teacher teacher = teacherService.selectTeacherById(Long.valueOf(teacher_id));
+    public String toUpdateTeacher(@RequestParam("teacher_id") String teacherId, ModelMap model) {
+        Teacher teacher = teacherService.selectTeacherById(Long.valueOf(teacherId));
         List<Subject> allSub = teacherService.allSub();
         model.put("teacher", teacher);
         model.put("allsub", allSub);
@@ -72,9 +60,8 @@ public class TeacherController {
     @RequestMapping("updateTeacher")
     @Transactional
     @ResponseBody
-    public boolean updateTeacher(Teacher teacher) {
-        System.out.println("teacher:" + teacher);
-        return teacherService.updateTeacher(teacher);
+    public boolean updateTeacher(Teacher teacher,@RequestParam("subids") String subids) {
+        return teacherService.updateTeacher(teacher,subids);
     }
 
     @RequestMapping("toAddTeacher")
@@ -85,19 +72,19 @@ public class TeacherController {
     }
 
 
-    @RequestMapping("addTeacher")
-    @ResponseBody
-    @Transactional
-    public boolean addTeacher(Teacher teacher) {
-        return teacherService.insertTeacher(teacher);
-    }
-
     @RequestMapping("getAllSub")
     @ResponseBody
     public JSONArray getAllSub() {
         List<Subject> subs = teacherService.allSub();
         JSONArray arr = new JSONArray();
         return arr.fromObject(subs);
+    }
+
+    @RequestMapping("addTeacher")
+    @ResponseBody
+    @Transactional
+    public boolean addTeacher(@RequestParam("subids") String subids,Teacher teacher) {
+        return teacherService.insertTeacher(teacher,subids);
     }
 
     @RequestMapping("deleteTeacher")
@@ -107,4 +94,11 @@ public class TeacherController {
         return teacherService.deleteTeacher(arrs);
     }
 
+
+    @RequestMapping("teacherSelectedSub")
+    @ResponseBody
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public JSONArray teacherSelectedSub(@RequestParam("teacherId") Long teacherId){
+        return teacherService.teacherSelectedSub(teacherId);
+    }
 }

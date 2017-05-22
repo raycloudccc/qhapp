@@ -52,10 +52,9 @@ $(document).ready(function(){
     $('#ttmenu').tree({
         animate:true,
         lines:true,
+        iconCls:'icon-save',
         url:path+"/menu/listmenus?parent_id=0",
         onBeforeExpand:function(node){
-            console.log(node.id);
-            console.log(node.url);
             $('#ttmenu').tree('options').url=path+"/menu/listmenus?parent_id="+node.id;
             return true;
         },

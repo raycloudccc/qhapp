@@ -1,5 +1,6 @@
 package com.noname.qh.dao;
 
+import com.noname.qh.entity.SubjectRelation;
 import org.springframework.stereotype.Repository;
 import com.noname.qh.entity.Subject;
 import com.noname.qh.entity.Teacher;
@@ -27,8 +28,18 @@ public interface TeacherDao {
      */
     public List<Teacher> listTeacher(Map map);
 
-    public int countTeacher(int status);
+    public int countTeacher(Map map);
 
     public List<Subject> allSub();
+
+    public List<SubjectRelation> getSubInfo(Map map);
+
+    public int countTeacherBySub(Map map);
+
+    public List<Long> getTeacherListBySubName(Map map);
+
+    public void insertSubjectRelation(SubjectRelation relation);
+
+    public void deleteSubjectRelation(Map map);
 
 }

@@ -22,7 +22,7 @@ public class PageHelper {
         }
         int pagestart = parseIntValue(pageNo, -1);
         if (pagestart > 1) {
-            pagestart = (pagestart - 1) * pagesize+1;
+            pagestart = (pagestart - 1) * pagesize;
             map.put("start", pagestart);
             map.put("end", pagesize*pagesize);
         } else {

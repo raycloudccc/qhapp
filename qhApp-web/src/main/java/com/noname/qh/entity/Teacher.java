@@ -2,6 +2,7 @@ package com.noname.qh.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by noname on 2017/4/24.
@@ -16,19 +17,12 @@ public class Teacher implements Serializable{
     private String email;
     private String wxh;
     private String address;
-    private String sub_id;
+    private Long subId;
     private int status;
     private String memo;
     private Timestamp createtime;
-    private String sub_name;
+    private String subName;
 
-    public String getSub_name() {
-        return sub_name;
-    }
-
-    public void setSub_name(String sub_name) {
-        this.sub_name = sub_name;
-    }
 
     public Long getTeacherId() {
         return teacherId;
@@ -94,12 +88,12 @@ public class Teacher implements Serializable{
         this.address = address;
     }
 
-    public String getSub_id() {
-        return sub_id;
+    public Long getSubId() {
+        return subId;
     }
 
-    public void setSub_id(String sub_id) {
-        this.sub_id = sub_id;
+    public void setSubId(Long subId) {
+        this.subId = subId;
     }
 
     public int getStatus() {
@@ -126,10 +120,18 @@ public class Teacher implements Serializable{
         this.createtime = createtime;
     }
 
+    public String getSubName() {
+        return subName;
+    }
+
+    public void setSubName(String subName) {
+        this.subName = subName;
+    }
+
     @Override
     public String toString() {
         return "Teacher{" +
-                "teacherId='" + teacherId + '\'' +
+                "teacherId=" + teacherId +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", gender=" + gender +
@@ -137,11 +139,11 @@ public class Teacher implements Serializable{
                 ", email='" + email + '\'' +
                 ", wxh='" + wxh + '\'' +
                 ", address='" + address + '\'' +
-                ", sub_id='" + sub_id + '\'' +
+                ", subId='" + subId + '\'' +
                 ", status=" + status +
                 ", memo='" + memo + '\'' +
                 ", createtime=" + createtime +
-                ", sub_name='" + sub_name + '\'' +
+                ", subName='" + subName + '\'' +
                 '}';
     }
 }

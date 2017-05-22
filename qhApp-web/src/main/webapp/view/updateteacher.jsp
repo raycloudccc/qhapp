@@ -44,14 +44,15 @@
 
         function save() {
             var flag = $('#editTeacher').form('validate');
+            var subids=$('#sub').combo('getValues').join(',');
             if (flag) {
-                $('#editTeacher').form('submit', {
+                $.ajax({
                     url: 'teacher/updateTeacher',
                     type: 'POST',
-                    dataType:'json',
-                    data: $('#editTeacher').serialize(),
+                    dataType: 'json',
+                    data: $.param({subids:subids})+'&'+$('#editTeacher').serialize(),
                     success: function (result) {
-                        if (result == 'true') {
+                        if (result == true) {
                             mframe.reload();
                             cancel();
                             $.messager.show({
@@ -71,6 +72,15 @@
         function cancel() {
             $('#w').window('close');
         }
+
+
+        $(function () {
+            $('#sub').combobox({
+                url: 'teacher/teacherSelectedSub?teacherId=' +${teacher.teacherId},
+                valueField: 'subId',
+                textField: 'subName'
+            });
+        });
 
 
     </script>
@@ -119,11 +129,9 @@
         </tr>
         <tr>
             <td>学科:</td>
-            <td><select id="sub" class="easyui-combobox" name="sub_id" style="width:120px;">
-                <c:forEach items="${allsub}" var="sub">
-                    <option value="${sub.sub_id}"
-                            <c:if test="${sub.sub_id==teacher.sub_id}">selected="selected"</c:if>>${sub.sub_name}</option>
-                </c:forEach>
+            <td><select id="sub" class="easyui-combobox" data-options="multiple:true,editable:false"
+                        style="width:120px;">
+
             </select></td>
         </tr>
         <tr>

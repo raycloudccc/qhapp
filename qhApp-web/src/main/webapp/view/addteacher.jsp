@@ -14,8 +14,8 @@
         $(function(){
             $('#sub').combobox({
                 url:'teacher/getAllSub',
-                valueField:'sub_id',
-                textField:'sub_name'
+                valueField:'subId',
+                textField:'subName'
             });
 
         });
@@ -50,14 +50,15 @@
 
     function add(){
         var flag = $('#addTeacher').form('validate');
+        var subids=$('#sub').combo('getValues').join("-");
         if (flag) {
-            $('#addTeacher').form('submit', {
+            $.ajax({
                 url: 'teacher/addTeacher',
                 type: 'POST',
                 dataType:'json',
-                data: $('#addTeacher').serialize(),
+                data:$.param({subids:subids})+'&'+$('#addTeacher').serialize(),
                 success: function (result) {
-                    if (result=='true') {
+                    if (result==true) {
                         mframe.reload();
                         cancel();
                         $.messager.show({
@@ -122,7 +123,7 @@
         </tr>
         <tr>
             <td>学科:</td>
-            <td><input id="sub" name="sub_id" data-options="required:true,editable:false,width:120"></td>
+            <td><input id="sub" data-options="required:true,editable:false,width:120,multiple:true,separator:'，'"></td>
         </tr>
         <tr>
             <td>备注:</td>

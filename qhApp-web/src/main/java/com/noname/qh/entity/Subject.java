@@ -1,35 +1,46 @@
 package com.noname.qh.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * Created by noname on 2017/4/25.
  */
 public class Subject implements Serializable{
-    private String sub_id;
-    private String sub_name;
+    private Long subId;
+    private String subName;
+    private Timestamp createtime;
 
-    public String getSub_id() {
-        return sub_id;
+    public Long getSubId() {
+        return subId;
     }
 
-    public void setSub_id(String sub_id) {
-        this.sub_id = sub_id;
+    public void setSubId(Long subId) {
+        this.subId = subId;
     }
 
-    public String getSub_name() {
-        return sub_name;
+    public String getSubName() {
+        return subName;
     }
 
-    public void setSub_name(String sub_name) {
-        this.sub_name = sub_name;
+    public void setSubName(String subName) {
+        this.subName = subName;
+    }
+
+    public Timestamp getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Timestamp createtime) {
+        this.createtime = createtime;
     }
 
     @Override
     public String toString() {
         return "Subject{" +
-                "sub_id='" + sub_id + '\'' +
-                ", sub_name='" + sub_name + '\'' +
+                "subId='" + subId + '\'' +
+                ", subName='" + subName + '\'' +
+                ", createtime=" + createtime +
                 '}';
     }
 }
