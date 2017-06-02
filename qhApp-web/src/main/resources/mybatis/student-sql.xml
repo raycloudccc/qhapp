@@ -57,7 +57,11 @@
         #{stuId},#{name},#{age},#{gender},#{tele},#{wxh},#{address},#{status},#{memo},#{enroldate},#{createtime})
     </insert>
 
-    <delete id="deleteStudent" parameterType="string">
-        DELETE FROM student WHERE stu_id=#{_parameter}
-    </delete>
+    <update id="deleteStudent" parameterType="java.util.Map">
+        update student set status=#{status} where stu_id=#{stuid}
+    </update>
+    
+    <select id="getAllValidStudents" parameterType="int" resultMap="student">
+        select <include refid="studentfield"/> from student where status=#{status}
+    </select>
 </mapper>

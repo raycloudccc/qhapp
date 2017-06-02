@@ -87,9 +87,9 @@
         memo=#{memo} WHERE teacher_id=#{teacherId}
     </update>
 
-    <delete id="deleteTeacher" parameterType="string">
-        DELETE from teacher WHERE teacher_id=#{_parameter}
-    </delete>
+    <update id="deleteTeacher" parameterType="java.util.Map">
+        update teacher set status=#{status} where teacher_id=#{teacherid}
+    </update>
 
     <select id="getSubInfo" parameterType="java.util.Map" resultType="com.noname.qh.entity.SubjectRelation">
         SELECT a.rela_id relaId,a.obj_id objId,a.sub_id subId,a.sub_flag subFlag,a.create_time createtime ,b.sub_name subName FROM subject_relation AS a
@@ -119,6 +119,9 @@
     <delete id="deleteSubjectRelation" parameterType="java.util.Map">
         delete from subject_relation where obj_id=#{teacherId} and sub_flag=#{subFlag}
     </delete>
-
+    
+    <select id="listAllValidTeachers" resultMap="resultMap" parameterType="int">
+        select <include refid="columnSql"/> from teacher t where status=#{status} order by createtime
+    </select>
 
 </mapper>

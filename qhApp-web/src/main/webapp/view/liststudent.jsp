@@ -133,6 +133,10 @@
             });
         }
 
+        function exportData(){
+            location.href="exportData";
+        }
+
     </script>
 </head>
 <body>
@@ -145,6 +149,7 @@
 
     <a href="#" class="easyui-linkbutton" onclick="add()" style="margin-left: 15px">添加</a>
     <a href="#" class="easyui-linkbutton" onclick="dele()">删除</a>
+    <a href="#" class="easyui-linkbutton" onclick="exportData()">导出学生列表</a>
 </div>
 <table id="tt"></table>
 </body>

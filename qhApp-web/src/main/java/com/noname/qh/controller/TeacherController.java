@@ -1,5 +1,6 @@
 package com.noname.qh.controller;
 
+import com.sun.net.httpserver.HttpContext;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,9 @@ import com.noname.qh.service.TeacherService;
 import com.noname.qh.utils.PageHelper;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -100,5 +103,11 @@ public class TeacherController {
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public JSONArray teacherSelectedSub(@RequestParam("teacherId") Long teacherId){
         return teacherService.teacherSelectedSub(teacherId);
+    }
+
+    @RequestMapping("exportData")
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void exportData(HttpServletResponse response){
+        teacherService.exportData(response);
     }
 }

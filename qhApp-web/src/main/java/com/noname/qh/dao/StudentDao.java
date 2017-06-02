@@ -21,5 +21,7 @@ public interface StudentDao {
 
     public int addStudent(Student student);
 
-    public void deleteStudent(String stuId);
+    public void deleteStudent(Map map);
+
+    public List<Student> getAllValidStudents(int status);
 }

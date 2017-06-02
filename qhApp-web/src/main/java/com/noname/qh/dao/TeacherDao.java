@@ -15,7 +15,7 @@ import java.util.Map;
 public interface TeacherDao {
     public int insertTeacher(Teacher teacher);
 
-    public int deleteTeacher(String arr);
+    public int deleteTeacher(Map map);
 
     public int updateTeacher(Teacher teacher);
 
@@ -42,4 +42,5 @@ public interface TeacherDao {
 
     public void deleteSubjectRelation(Map map);
 
+    public List<Teacher> listAllValidTeachers(int status);
 }

@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 import com.noname.qh.entity.Subject;
 import com.noname.qh.entity.Teacher;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -28,5 +29,7 @@ public interface TeacherService {
     public List<Subject> allSub();
 
     public JSONArray teacherSelectedSub(Long teacherId);
+
+    public void exportData(HttpServletResponse response);
 
 }
