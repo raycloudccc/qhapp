@@ -33,12 +33,13 @@
         SELECT
         <include refid="studentfield"></include>
         FROM student WHERE status=#{status}
-        <if test="name!='' and value!=''">AND ${name} LIKE #{value}</if>
+        <if test="search!='%%'">AND name like #{search}</if>
         LIMIT #{start},#{end}
     </select>
 
-    <select id="countStudent" parameterType="int" resultType="int">
-        SELECT COUNT(*) FROM student WHERE status=#{_parameter}
+    <select id="countStudent" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(*) FROM student WHERE status=#{status}
+        <if test="search!='%%'">AND name like #{search}</if>
     </select>
 
     <select id="getStudentInfo" parameterType="string" resultMap="student">

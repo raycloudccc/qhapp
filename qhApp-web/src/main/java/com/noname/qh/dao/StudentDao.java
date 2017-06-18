@@ -13,7 +13,7 @@ import java.util.Map;
 public interface StudentDao {
     public List<Student> getStudentList(Map map);
 
-    public int countStudent(int status);
+    public int countStudent(Map map);
 
     public Student getStudentInfo(String studentId);
 

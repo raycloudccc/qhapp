@@ -1,5 +1,6 @@
 package com.noname.qh.controller;
 
+import com.noname.qh.entity.TeacherSchedule;
 import com.sun.net.httpserver.HttpContext;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -19,7 +20,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by noname on 2017/4/24.
@@ -41,8 +44,9 @@ public class TeacherController {
 
     @RequestMapping("getTeacherList")
     @ResponseBody
-    public JSONObject getTeacherList(@RequestParam("page") String pageNo, @RequestParam("rows") String pageSize, @RequestParam("name") String name, @RequestParam("value") String value) {
-        return teacherService.listTeacher(pageNo, pageSize, 1, name, value);
+    public JSONObject getTeacherList(@RequestParam(required = false,value="limit") String limit, @RequestParam(required = false,value="offset") String offset,@RequestParam(required = false,value="searchText") String search) {
+        System.out.println("search:"+search);
+        return teacherService.listTeacher(limit, offset,1,search);
     }
 
     @RequestMapping("allSub")
@@ -56,6 +60,7 @@ public class TeacherController {
         Teacher teacher = teacherService.selectTeacherById(Long.valueOf(teacherId));
         List<Subject> allSub = teacherService.allSub();
         model.put("teacher", teacher);
+        System.out.println("值："+teacher);
         model.put("allsub", allSub);
         return "updateteacher";
     }
@@ -64,6 +69,8 @@ public class TeacherController {
     @Transactional
     @ResponseBody
     public boolean updateTeacher(Teacher teacher,@RequestParam("subids") String subids) {
+        System.out.println("---------:"+teacher);
+        System.out.println("---------:"+subids);
         return teacherService.updateTeacher(teacher,subids);
     }
 
@@ -109,5 +116,29 @@ public class TeacherController {
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void exportData(HttpServletResponse response){
         teacherService.exportData(response);
+    }
+
+
+    @RequestMapping("checkTeacherSchedule")
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public String toCheckSchedule(@RequestParam("teacherId") Long teacherId,ModelMap modelMap){
+        List<List<TeacherSchedule>> scheduleList=teacherService.getTeacherSchedule(teacherId);
+        modelMap.put("scheduleList",scheduleList);
+        modelMap.put("teacherId",teacherId);
+        return "teacherschedule";
+    }
+
+    @RequestMapping("toAddSchedule")
+    public String addSchedule(@RequestParam("teacherId") Long teacherId,@RequestParam("week") String week){
+        return "addSchedule";
+    }
+
+    @RequestMapping("techerSelectSubJSON")
+    @ResponseBody
+    public JSONArray techerSelectSubJSON(@RequestParam("teacherId") Long teacherId){
+        Map<String,Object> sqlMap=new HashMap<String,Object>();
+        sqlMap.put("teacherId",teacherId);
+        sqlMap.put("flag",0);
+        return teacherService.getTeacherSelectSubJSON(sqlMap);
     }
 }

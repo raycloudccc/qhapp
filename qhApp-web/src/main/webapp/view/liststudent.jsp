@@ -10,147 +10,122 @@
 <html>
 <head>
     <jsp:include page="header.jsp"></jsp:include>
+    <style>
+        html,body,#father{
+            width:100%;
+            height:100%
+        }
+
+        .c {
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+    </style>
+
     <script type="text/javascript">
         $(function () {
-            $('#tt').edatagrid({
-                title: '学生列表',
-                fit: true,
-                striped: true,
-                rownumbers: true,
-                singleSelect: false,
-                pagination: true,
-                pageSize:50,
+            //绑定搜索框回车事件
+            $('.c').on('keydown',function(event){
+                if(event.keyCode==13){
+                    reload();
+                }
+            })
+
+
+            //数据表格加载
+            $('#studentTable').bootstrapTable({
+                height: $('#father').height() - 30,
                 url: 'getStudentList',
-                toolbar:$('#search'),
-                queryParams: {
-                    name: '',
-                    value: ''
+                toolbar: '#tool',
+                cache: false,
+                pagination: true,
+                sidePagination: "server",
+                pageSize: 50,
+                showToggle: true,
+                showRefresh: true,
+                queryParams: function (queryParams) {
+                    queryParams.search = $('.c').val();
+                    return queryParams;
                 },
-                columns: [[
-                    {field: 'action', title: '', width: 100, checkbox: true},
+                columns: [
                     {
-                        field: 'name', title: '姓名', width: 80,
-                        formatter: function (value, row, index) {
-                            var val = '<a href="#" onclick="edit(\'' + row.stuId + '\')">' + value + '</a>';
-                            return val;
-                        }
+                        field: 'id',
+                        title: '#',
+                        checkbox: true
                     },
                     {
-                        field: 'age', title: '年龄', width: 50,
-                        formatter: function (value, row, index) {
-                            if (value == 0) {
-                                return;
-                            } else {
-                                return value;
-                            }
-                        }
+                        field: 'name',
+                        title: '姓名'
+                    }, {
+                        field: 'age',
+                        title: '年龄'
                     },
                     {
-                        field: 'gender', title: '性别', width: 50,
-                        formatter: function (value, row, index) {
-                            if (value == '1') {
-                                return '男';
-                            } else {
-                                return '女';
-                            }
-                        }
+                        field: 'gender',
+                        title: '性别'
                     },
-                    {field: 'tele', title: '手机', width: 100},
-                    {field: 'wxh', title: '微信', width: 120},
-                    {field: 'address', title: '联系地址', width: 200},
-                    {field: 'enroldate', title: '入学时间', width: 120},
-                    {field: 'memo', title: '备注', width: 200}
-                ]]
-            });
+                    {
+                        field: 'tele',
+                        title: '联系方式'
+                    },
+                    {
+                        field: 'wxh',
+                        title: '微信号'
+                    },
+                    {
+                        field: 'address',
+                        title: '联系住址'
+                    },
+                    {
+                        field: 'memo',
+                        title: '备注'
+                    },
+                    {
+                        field: 'enroldate',
+                        title: '入学日期'
+                    }
+                ],
+                onCheckAll:function(){
+                    alert('全选')
+                }
+            })
         });
 
-        function edit(studentId) {
-            var data = {
-                'student_id': studentId
-            }
-            parent.openWithWin("编辑学生", 'student/toUpdateStudent', data, 250, 370);
+
+        function reload(){
+            $('#studentTable').bootstrapTable('refresh',{
+                silent:true,
+                url:'getStudentList'
+            })
         }
 
 
-        function reload() {
-            $('#tt').edatagrid('reload');
+        function addStudent(){
+            top.openWithWin('student/toAddStudent',400)
         }
-
-
-        function add() {
-            parent.openWithWin('添加学生', 'student/toAddStudent', '', 250, 370);
-        }
-
-        function dele() {
-            var arr = [];
-            var rows = $('#tt').datagrid('getSelections');
-            $(rows).each(function () {
-                arr.push(this.stuId);
-            });
-            var arrs = arr.join("&");
-            $.ajax({
-                url: 'deleteStudent',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    arrs: arrs
-                },
-
-                success: function (result) {
-                    if (result == true) {
-                        reload();
-                        cancel();
-                        $.messager.show({
-                            title: '操作提示',
-                            msg: '删除成功',
-                            timeout: 2000,
-                            showType: 'slide'
-                        });
-                    } else {
-                        $.messager.alert('操作提示', '修改失败', '');
-                    }
-                }
-            });
-
-        }
-
-        function cancel() {
-            $('#w').window('close');
-        }
-
-        //教师查询，通过指定字段查询，name:字段名称，value：用户输入值
-        function qq(value, name) {
-            $('#tt').datagrid('load', {
-                'name': name,
-                'value': value
-            });
-        }
-
-        function qq(value, name) {
-            $('#tt').datagrid('load', {
-                'name': name,
-                'value': value
-            });
-        }
-
-        function exportData(){
-            location.href="exportData";
-        }
-
     </script>
 </head>
 <body>
-<div id="search">
-    <input id="ss" class="easyui-searchbox" style="width:300px"
-           data-options="searcher:qq,prompt:'请输入需要搜索的内容',menu:'#mm'"></input>
-    <div id="mm" style="width:120px">
-        <div data-options="name:'name'">姓名</div>
+<div id="father">
+    <table id="studentTable"></table>
+    <div id="tool">
+        <button type="button" class="btn btn-success" onclick="addStudent()">添加学生</button>
+        <button type="button" class="btn btn-danger">删除学生</button>
+        <button type="button" class="btn btn-info">导出学生信息</button>
+        <input type="text" class="c" >
     </div>
-
-    <a href="#" class="easyui-linkbutton" onclick="add()" style="margin-left: 15px">添加</a>
-    <a href="#" class="easyui-linkbutton" onclick="dele()">删除</a>
-    <a href="#" class="easyui-linkbutton" onclick="exportData()">导出学生列表</a>
 </div>
-<table id="tt"></table>
 </body>
 </html>

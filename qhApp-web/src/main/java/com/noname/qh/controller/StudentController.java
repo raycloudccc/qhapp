@@ -38,16 +38,12 @@ public class StudentController {
     @RequestMapping("getStudentList")
     @ResponseBody
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public JSONObject getStudentList(@RequestParam("page") String pageNo, @RequestParam("rows") String pageSize, @RequestParam("name") String name, @RequestParam("value") String value) {
+    public JSONObject getStudentList(@RequestParam("limit") String limit, @RequestParam("offset") String offset, @RequestParam(required = false,value="search") String search) {
+        System.out.println("-----:"+limit);
         Map<String, Object> map = new HashMap<>();
         map.put("status", 1);
-        if(name!=null){
-            map.put("name",name);
-        }
-        if(value!=null){
-            map.put("value","%"+value+"%");
-        }
-        pageHelper.autoPage(pageNo, pageSize, map);
+        map.put("search","%"+search+"%");
+        pageHelper.autoPage(limit, offset, map);
         return studentService.getStudentList(map);
     }
 

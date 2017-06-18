@@ -23,15 +23,10 @@ public class MenuServiceImpl implements MenuService{
     @Override
     public JSONArray getMenusList(String parent_id) {
         JSONArray arr=new JSONArray();
-            List<Menu> menus=menuDao.listMenus(parent_id);
-            for(Menu menu:menus){
-                JSONObject json=new JSONObject();
-                json.put("id",menu.getMenu_id());
-                json.put("text",menu.getMenu_name());
-                json.put("state","closed");
-                json.put("url",menu.getUrl());
-                arr.add(json);
-            }
+        List<Menu> menus=menuDao.listMenus(String.valueOf(0));
+        for(Menu menu:menus){
+            arr.add(recursion(menu));
+        }
         return arr;
     }
 
@@ -40,4 +35,23 @@ public class MenuServiceImpl implements MenuService{
         String url=menuDao.getUrlData(menu_id);
         return url;
     }
+
+    private JSONObject recursion(Menu menu) {
+        JSONObject obj=new JSONObject();
+        obj.put("text",menu.getMenu_name());
+        obj.put("href",menu.getUrl());
+        //通过这个菜单id查找是否还有子菜单,如果有
+        List<Menu> list=menuDao.listMenus(menu.getMenu_id());
+        if(!list.isEmpty()){
+            //如果不是空，则加入node属性
+            JSONArray arr=new JSONArray();
+            for(Menu m:list){
+                JSONObject node=recursion(m);
+                arr.add(node);
+                obj.put("nodes",arr);
+            }
+        }
+        return obj;
+    }
+
 }

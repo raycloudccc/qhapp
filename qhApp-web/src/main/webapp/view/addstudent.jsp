@@ -10,7 +10,7 @@
 <html>
 <head>
     <style type="text/css">
-        .field{
+        .field {
             margin-bottom: 5px;
         }
     </style>
@@ -44,16 +44,16 @@
         });
 
 
-        function save(){
+        function save() {
             var flag = $('#addStudent').form('validate');
-            if(flag){
+            if (flag) {
                 $('#addStudent').form('submit', {
                     url: 'student/addStudent',
                     type: 'POST',
-                    dataType:'json',
+                    dataType: 'json',
                     data: $('#addStudent').serialize(),
                     success: function (result) {
-                        if (result=='true') {
+                        if (result == 'true') {
                             mframe.reload();
                             cancel();
                             $.messager.show({
@@ -77,45 +77,42 @@
     </script>
 </head>
 <body>
-<form id="addStudent">
-    <div style="display:none"><input name="stuId" class="easyui-textbox" style="width:120px">
-    </div>
-    <div class="field">姓名:
-        <input name="name" class="easyui-textbox" style="width:120px"
-               data-options="required:true,validType:'name'">
-    </div>
-    <div class="field">年龄:
-        <input name="age" class="easyui-textbox" style="width:120px"
-               data-options="validType:'age'">
-    </div>
-    <div class="field">性别:
-        <select id="gender" class="easyui-combobox" name="gender" style="width:120px">
-            <option value="1">男</option>
-            <option value="2">女</option>
-        </select>
-    </div>
-    <div class="field">手机:
-        <input name="tele" class="easyui-textbox" style="width:120px"
-               data-options="validType:'mobile'">
-    </div>
-    <div class="field">微信:
-        <input name="wxh" class="easyui-textbox" style="width:120px"
-               data-options="validType:'wxh'">
-    </div>
-    <div class="field">地址:
-        <input name="address" class="easyui-textbox" style="width:120px"
-               data-options="">
-    </div>
-    <div class="field">备注:
-        <textarea name="memo" style="width: 120px"></textarea>
-    </div>
-    <div class="field">入学日期:
-        <input name="enroldate" type="text" class="easyui-datebox" required="required"
-               data-options="width:100"> </input>
-    </div>
 
-    <a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
-    <a href="#" class="easyui-linkbutton" onclick="cancel()">取消</a>
+<form class="well">
+    <div class="form-group">
+        <label>姓名</label>
+        <input type="text" class="form-control" placeholder="请输入学生姓名..." name="name">
+    </div>
+    <div class="form-group">
+        <label>年龄</label>
+        <input type="text" class="form-control" placeholder="请输入整数..." name="name">
+    </div>
+    <div class="form-group">
+        <label>性别</label>
+        <%--<input type="text" class="form-control" placeholder="请输入..." name="name">--%>
+    </div>
+    <div class="form-group">
+        <label>联系方式</label>
+        <input type="text" class="form-control" placeholder="请输入手机号..." name="name">
+    </div>
+    <div class="form-group">
+        <label>微信</label>
+        <input type="text" class="form-control" placeholder="请输入微信号..." name="name">
+    </div>
+    <div class="form-group">
+        <label>联系住址</label>
+        <input type="text" class="form-control" placeholder="请输入家庭住址..." name="name">
+    </div>
+    <div class="form-group">
+        <label>备注</label>
+        <input type="text" class="form-control" placeholder="请输入备注文字..." name="name">
+    </div>
+    <div class="form-group">
+        <label>入学日期</label>
+        <%--<input type="text" class="form-control" placeholder="请选择入学日期" name="name">--%>
+    </div>
+    <button type="submit" class="btn">Submit</button>
 </form>
+
 </body>
 </html>

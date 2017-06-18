@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.noname.qh.dao.ClassroomDao">
+    <select id="listClassroom" resultType="com.noname.qh.entity.Classroom" parameterType="java.util.Map">
+        select class_id classId,class_name className,create_time createTime from classroom order by create_time LIMIT #{start},#{end}
+    </select>
+
+    <select id="CountClassroom" resultType="int">
+        select count(*) from classroom
+    </select>
+
+    <select id="isExist" parameterType="string" resultType="int">
+        select count(*) from classroom where class_name=#{className}
+    </select>
+    
+    <insert id="saveClass" parameterType="com.noname.qh.entity.Classroom">
+        insert into classroom (class_name) values(#{className})
+    </insert>
+
+    <delete id="deleteClass" parameterType="long">
+        delete from classroom where class_id=#{classId}
+    </delete>
+</mapper>

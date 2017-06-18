@@ -11,26 +11,15 @@ import java.util.Map;
 public class PageHelper {
     /**
      * 自动分页
-     * @param pageNo 当前的页数
-     * @param pageSize  单页的数据条数
+     * @param limit 每页的条数
+     * @param offset  偏移量
      * @param map  需要添加前两个数据的map
      */
-    public void autoPage(String pageNo, String pageSize, Map map){
-        int pagesize = parseIntValue(pageSize, -1);
-        if (pagesize <= 0) {
-            pagesize = 10;
-        }
-        int pagestart = parseIntValue(pageNo, -1);
-        if (pagestart > 1) {
-            pagestart = (pagestart - 1) * pagesize;
-            map.put("start", pagestart);
-            map.put("end", pagesize*pagesize);
-        } else {
-            pagestart = 0;
-            map.put("start", pagestart);
-            map.put("end", pagesize);
-        }
-
+    public void autoPage(String limit, String offset, Map map){
+        int pagesize = parseIntValue(offset, -1);
+        int pagestart = parseIntValue(limit, -1);
+            map.put("start", pagesize);
+            map.put("end", pagestart);
     }
 
     public static int parseIntValue(String value, int defaultValue) {

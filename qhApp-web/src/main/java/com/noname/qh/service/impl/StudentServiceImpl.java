@@ -40,7 +40,8 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public JSONObject getStudentList(Map map) {
         List<Student> studentList=studentDao.getStudentList(map);
-        int total=studentDao.countStudent((int)(map.get("status")));
+        int total=studentDao.countStudent(map);
+        System.out.println(total);
         return dataGridUtils.parseJSON(total,studentList);
     }
 

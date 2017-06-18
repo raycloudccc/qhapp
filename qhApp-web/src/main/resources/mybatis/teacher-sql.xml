@@ -57,18 +57,24 @@
     </insert>
 
     <select id="listTeacher" resultMap="resultMap" parameterType="java.util.Map">
-        SELECT
+        SELECT distinct
         <include refid="columnSql"/>
         FROM teacher t
-        WHERE t.status=#{status}
-        <if test="name=='name' and value!='%%'">AND ${name} LIKE #{value}</if>
-        ORDER BY t.createtime
+        join subject_relation rela on t.teacher_id=rela.obj_id
+        join subject sub
+        on sub.sub_id=rela.sub_id
+        where t.status=#{status} and rela.sub_flag=0
+        <if test="search!='%%'">AND (t.name LIKE #{search} or sub.sub_name like #{search})</if>
+        ORDER BY t.teacher_id
         LIMIT #{start},#{end}
     </select>
 
     <select id="countTeacher" parameterType="java.util.Map" resultType="int">
-        SELECT COUNT(*) FROM teacher WHERE status=#{status}
-        <if test="name=='name' and value!='%%'">AND name LIKE #{value}</if>
+        SELECT count(distinct(t.teacher_id)) FROM teacher t join subject_relation rela on t.teacher_id=rela.obj_id
+        join subject sub
+        on sub.sub_id=rela.sub_id
+        where t.status=#{status} and rela.sub_flag=0
+        <if test="search!='%%'">AND (t.name LIKE #{search} or sub.sub_name like #{search})</if>
     </select>
 
     <select id="allSub" resultType="com.noname.qh.entity.Subject">
@@ -124,4 +130,21 @@
         select <include refid="columnSql"/> from teacher t where status=#{status} order by createtime
     </select>
 
+    <select id="getSingleDayTeacherSchedule" parameterType="java.util.Map" resultType="com.noname.qh.entity.TeacherSchedule">
+        select schedule_id scheduleId,teacher_id teacherId,student_id studentId,stime,etime,week,subject_id subjectId,subject_name subjectName,class_id classId,class_name className,create_time createTime
+        from teacher_schedule where teacher_id=#{teacherId} and week=#{week} order by stime
+    </select>
+
+    <select id="getMaxCount" resultType="int">
+        select max(a) from (select count(*) as a from teacher_schedule where teacher_id=6 group by week) as b
+    </select>
+
+    <select id="getSubInfoByTeacherId" parameterType="java.util.Map" resultType="com.noname.qh.entity.Subject">
+        select sub.sub_id subId,sub.sub_name subName from subject as sub
+        join subject_relation as relation
+        on sub.sub_id=relation.sub_id
+        join teacher as t
+        on relation.obj_id=t.teacher_id
+        where relation.obj_id=#{teacherId} and relation.sub_flag=#{flag}
+    </select>
 </mapper>

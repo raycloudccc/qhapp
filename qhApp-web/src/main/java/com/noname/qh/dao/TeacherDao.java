@@ -1,6 +1,7 @@
 package com.noname.qh.dao;
 
 import com.noname.qh.entity.SubjectRelation;
+import com.noname.qh.entity.TeacherSchedule;
 import org.springframework.stereotype.Repository;
 import com.noname.qh.entity.Subject;
 import com.noname.qh.entity.Teacher;
@@ -43,4 +44,10 @@ public interface TeacherDao {
     public void deleteSubjectRelation(Map map);
 
     public List<Teacher> listAllValidTeachers(int status);
+
+    public List<TeacherSchedule> getSingleDayTeacherSchedule(Map map);
+
+    public int getMaxCount();
+
+    public List<Subject> getSubInfoByTeacherId(Map map);
 }

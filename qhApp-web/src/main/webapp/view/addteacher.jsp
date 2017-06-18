@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: noname
@@ -7,133 +8,174 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
-    <html>
-    <head>
+<html>
+<head>
     <title>添加教师</title>
+    <style>
+        form div {
+            margin-bottom: 5px
+        }
+
+        form input {
+            margin-left: 5px
+        }
+
+    </style>
     <script type="text/javascript">
-        $(function(){
-            $('#sub').combobox({
-                url:'teacher/getAllSub',
-                valueField:'subId',
-                textField:'subName'
+        $(function () {
+            $('form').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    name: {
+                        message: '用户名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '姓名不可为空'
+                            },
+                            regexp: {
+                                regexp: /^[\u4E00-\u9FA5A-Za-z]+$/,
+                                message: '姓名只可以是中英文'
+                            }
+
+                        }
+                    },
+                    age: {
+                        validators: {
+                            regexp: {
+                                regexp: /^(?:[1-9][0-9]?|1[01][0-9]|120)$/i,
+                                message: '年龄必须是0到120之间的整数'
+                            }
+                        }
+                    },
+                    tele: {
+                        validators: {
+                            regexp: {
+                                regexp: /^(13|15|18)\d{9}$/i,
+                                message: '手机号码格式不正确'
+                            }
+                        }
+                    },
+                    wxh: {
+                        validators: {
+                            regexp: {
+                                regexp: /^[a-zA-Z\d_]{5,}$/,
+                                message: '微信号格式不正确'
+                            }
+                        }
+                    },
+                    email: {
+                        validators: {
+                            emailAddress: {
+                                message: '邮箱格式有误'
+                            }
+                        }
+                    },
+                    sub: {
+                        validators: {
+                            notEmpty: {
+                                message: '学科必须填写'
+                            }
+                        }
+                    }
+                }
             });
-
         });
 
-
-        $.extend($.fn.validatebox.defaults.rules, {
-            age: {// 验证年龄
-                validator: function (value) {
-                    return /^(?:[1-9][0-9]?|1[01][0-9]|120)$/i.test(value);
-                },
-                message: '年龄必须是0到120之间的整数'
-            },
-            mobile: {// 验证手机号码
-                validator: function (value) {
-                    return /^(13|15|18)\d{9}$/i.test(value);
-                },
-                message: '手机号码格式不正确'
-            },
-            name: {// 验证姓名，可以是中文或英文
-                validator: function (value) {
-                    return /^[\u4E00-\u9FA5A-Za-z]+$/.test(value);
-                },
-                message: '姓名输入有误'
-            },
-            wxh: {// 验证姓名，可以是中文或英文
-                validator: function (value) {
-                    return /^[a-zA-Z\d_]{5,}$/.test(value);
-                },
-                message: '请输入正确的微信号'
+        function add() {
+            //如果存在空字段，则不让其提交
+            $('#form').data('bootstrapValidator').validate();
+            var flag = $('#form').data("bootstrapValidator").isValid();
+            if (flag == false) {
+                return;
             }
-        });
-
-    function add(){
-        var flag = $('#addTeacher').form('validate');
-        var subids=$('#sub').combo('getValues').join("-");
-        if (flag) {
+            var arr = $("#form").data("bootstrapValidator").getFieldElements('sub').val();
+            var subIds = arr.join("-");
             $.ajax({
                 url: 'teacher/addTeacher',
                 type: 'POST',
-                dataType:'json',
-                data:$.param({subids:subids})+'&'+$('#addTeacher').serialize(),
+                dataType: 'json',
+                data: $.param({subids: subIds}) + '&' + $('#form').serialize(),
                 success: function (result) {
-                    if (result==true) {
+                    if (result == true) {
+                        closeModal();
                         mframe.reload();
-                        cancel();
-                        $.messager.show({
-                            title: '操作提示',
-                            msg: '添加成功',
-                            timeout: 2000,
-                            showType: 'slide'
-                        });
+                        //清空所有验证
+                        $('#form').data('bootstrapValidator').resetForm();
+                        //清空表单数据
+                        $('#form')[0].reset();
                     } else {
-                        $.messager.alert('操作提示', '添加失败', '');
+                        parent.tip('操作提示','添加失败',400);
                     }
                 }
-
             });
         }
-    }
 
 
-        function cancel() {
-            $('#w').window('close');
-        }
+        $(function () {
+            $('[name="gender"]').bootstrapSwitch({
+                onText: '男',
+                offText: "女",
+                onColor: "success",
+                offColor: "info",
+                size: "small",
+                onSwitchChange: function (event, state) {
+                    if (state == true) {
+                        $(this).val("1");
+                    } else {
+                        $(this).val("0")
+                    }
+                }
+            })
+        });
+
+
     </script>
 </head>
 <body>
-<form id="addTeacher">
-    <table>
-        <tr>
-            <td>姓名:</td>
-            <td><input name="name" class="easyui-textbox" style="width:120px"
-                       data-options="required:true,validType:'name'"></td>
-        </tr>
-        <tr>
-            <td>年龄:</td>
-            <td><input name="age" class="easyui-textbox" style="width:120px"
-                       data-options="validType:'age'"></td>
-        </tr>
-        <tr>
-            <td>性别:</td>
-            <td><select id="gender" class="easyui-combobox" name="gender" style="width:120px;">
-                <option value="1">男</option>
-                <option value="2">女</option>
-            </select></td>
-        </tr>
-        <tr>
-            <td>手机:</td>
-            <td><input name="tele" class="easyui-textbox" style="width:120px"
-                       data-options="validType:'mobile'"></td>
-        </tr>
-        <tr>
-            <td>邮箱:</td>
-            <td><input name="email" class="easyui-textbox" style="width:120px"
-                       validtype="email"></td>
-        </tr>
-        <tr>
-            <td>微信:</td>
-            <td><input name="wxh" class="easyui-textbox" style="width:120px"
-                       data-options="validType:'wxh'"></td>
-        </tr>
-        <tr>
-            <td>地址:</td>
-            <td><input name="address" class="easyui-textbox" style="width:120px"></td>
-        </tr>
-        <tr>
-            <td>学科:</td>
-            <td><input id="sub" data-options="required:true,editable:false,width:120,multiple:true,separator:'，'"></td>
-        </tr>
-        <tr>
-            <td>备注:</td>
-            <td><textarea name="memo" style="width: 120px;"></textarea></td>
-        </tr>
-        <tr>
-            <td><a href="#" class="easyui-linkbutton" onclick="add()">添加</a></td>
-            <td><a href="#" class="easyui-linkbutton" onclick="cancel()">取消</a></td>
-        </tr>
-    </table>
-</form>
+<div style="margin:10px;">
+    <form class="well" id="form">
+        <div class="form-group"><label>姓名</label>
+            <input type="text" class="form-control" placeholder="请输入教师姓名..." name="name">
+        </div>
+        <div class="form-group">
+            <label>学科</label>
+            <select multiple class="form-control" name="sub">
+                <c:forEach items="${allsub}" var="sub">
+                    <option value="${sub.subId}">${sub.subName}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="form-group"><label>年龄</label>
+            <input type="text" class="form-control" placeholder="请输入文字..." name="age">
+        </div>
+        <div class="form-group">
+            <label>性别</label>
+            <div>
+                <input name="gender" type="checkbox" data-size="small">
+            </div>
+        </div>
+        <div class="form-group"><label>手机</label>
+            <input type="text" class="form-control" placeholder="请输入手机号..." name="tele">
+        </div>
+        <div class="form-group"><label>邮箱</label>
+            <input type="text" class="form-control" placeholder="请输入邮箱..." name="email">
+        </div>
+        <div class="form-group"><label>微信</label>
+            <input type="text" class="form-control" placeholder="请输入微信号..." name="wxh">
+        </div>
+        <div class="form-group"><label>住址</label>
+            <input type="text" class="form-control" placeholder="请输入联系住址..." name="address">
+        </div>
+        <div class="form-group"><label>备注</label>
+            <textarea class="form-control" rows="3" name="memo"></textarea>
+        </div>
+        <button class="btn" onclick="add()">确认添加</button>
+    </form>
+</div>
 </body>
 </html>

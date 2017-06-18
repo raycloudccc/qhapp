@@ -1,6 +1,7 @@
 package com.noname.qh.service;
 
 import com.noname.qh.entity.SubjectRelation;
+import com.noname.qh.entity.TeacherSchedule;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import com.noname.qh.entity.Subject;
@@ -24,12 +25,16 @@ public interface TeacherService {
 
     public Teacher selectTeacherById(Long teacher_id);
 
-    public JSONObject listTeacher(String pageNo, String pageSize, int status,String name,String value);
+    public JSONObject listTeacher(String pageNo, String pageSize, int status,String search);
 
     public List<Subject> allSub();
 
     public JSONArray teacherSelectedSub(Long teacherId);
 
     public void exportData(HttpServletResponse response);
+
+    public List<List<TeacherSchedule>> getTeacherSchedule(Long teacherId);
+
+    public JSONArray getTeacherSelectSubJSON(Map map);
 
 }

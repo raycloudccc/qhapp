@@ -1,6 +1,7 @@
 package com.noname.qh.service.impl;
 
 import com.noname.qh.entity.SubjectRelation;
+import com.noname.qh.entity.TeacherSchedule;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
@@ -16,6 +17,7 @@ import com.noname.qh.entity.Teacher;
 import com.noname.qh.service.TeacherService;
 import com.noname.qh.utils.DataGridUtils;
 import com.noname.qh.utils.PageHelper;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -56,11 +58,11 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public boolean deleteTeacher(String arr) {
         boolean result = false;
-        String[] teacher_ids = arr.split("&");
-        Map<String,Object> map=new HashedMap();
-        map.put("status",0);
+        String[] teacher_ids = arr.split("-");
+        Map<String, Object> map = new HashedMap();
+        map.put("status", 0);
         for (String id : teacher_ids) {
-            map.put("teacherid",id);
+            map.put("teacherid", id);
             teacherDao.deleteTeacher(map);
         }
         result = true;
@@ -75,7 +77,7 @@ public class TeacherServiceImpl implements TeacherService {
         map.put("teacherId", teacher.getTeacherId());
         map.put("subFlag", 0);
         teacherDao.deleteSubjectRelation(map);
-        String[] subidArr = subids.split(",");
+        String[] subidArr = subids.split("-");
         insertTeacherRelation(subidArr, teacher);
         result = true;
         return result;
@@ -91,30 +93,15 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public JSONObject listTeacher(String pageNo, String pageSize, int status, String name, String value) {
+    public JSONObject listTeacher(String pageNo, String pageSize, int status,String search) {
         Map<String, Object> map = new HashMap<>();
         map.put("status", status);
-        map.put("name", name);
-        map.put("value", "%" + value + "%");
+        map.put("search","%"+search+"%");
         pageHelper.autoPage(pageNo, pageSize, map);
-        if ("".equals(name) || "name".equals(name) || "".equals(value)) {
-            int total = teacherDao.countTeacher(map);
-            List<Teacher> teacherList = teacherDao.listTeacher(map);
-            relevancySub(teacherList);
-            return dataGridUtils.parseJSON(total, teacherList);
-        } else if ("subName".equals(name)) {
-            map.put("flag", 0);
-            int total = teacherDao.countTeacherBySub(map);
-            List<Long> list = teacherDao.getTeacherListBySubName(map);
-            List<Teacher> teachers = new ArrayList<>();
-            for (Long l : list) {
-                teachers.add(teacherDao.selectTeacherById(l));
-            }
-            relevancySub(teachers);
-            return dataGridUtils.parseJSON(total, teachers);
-        } else {
-            return null;
-        }
+        int total=teacherDao.countTeacher(map);
+        List<Teacher> teacherList = teacherDao.listTeacher(map);
+        relevancySub(teacherList);
+        return dataGridUtils.parseJSON(total,teacherList);
     }
 
     @Override
@@ -160,38 +147,38 @@ public class TeacherServiceImpl implements TeacherService {
         XSSFSheet sheet = workbook.createSheet();
         sheet.autoSizeColumn(0);
         Row titles = sheet.createRow(0);
-        CellStyle style=workbook.createCellStyle();
+        CellStyle style = workbook.createCellStyle();
         style.setBorderTop(CellStyle.BORDER_THIN);
         style.setBorderLeft(CellStyle.BORDER_THIN);
         style.setBorderRight(CellStyle.BORDER_THIN);
         style.setBorderBottom(CellStyle.BORDER_THIN);
 
-        createCellAndStyle(titles,0,"序号",style);
-        createCellAndStyle(titles,1,"姓名",style);
-        createCellAndStyle(titles,2,"年龄",style);
-        createCellAndStyle(titles,3,"性别",style);
-        createCellAndStyle(titles,4,"手机",style);
-        createCellAndStyle(titles,5,"邮箱",style);
-        createCellAndStyle(titles,6,"微信",style);
-        createCellAndStyle(titles,7,"联系地址",style);
-        createCellAndStyle(titles,8,"学科",style);
-        createCellAndStyle(titles,9,"备注",style);
+        createCellAndStyle(titles, 0, "序号", style);
+        createCellAndStyle(titles, 1, "姓名", style);
+        createCellAndStyle(titles, 2, "年龄", style);
+        createCellAndStyle(titles, 3, "性别", style);
+        createCellAndStyle(titles, 4, "手机", style);
+        createCellAndStyle(titles, 5, "邮箱", style);
+        createCellAndStyle(titles, 6, "微信", style);
+        createCellAndStyle(titles, 7, "联系地址", style);
+        createCellAndStyle(titles, 8, "学科", style);
+        createCellAndStyle(titles, 9, "备注", style);
 
-        List<Teacher> teacherList=teacherDao.listAllValidTeachers(1);
+        List<Teacher> teacherList = teacherDao.listAllValidTeachers(1);
         relevancySub(teacherList);
-        for(int x=0;x<teacherList.size();x++){
-            Teacher teacher=teacherList.get(x);
-            Row row=sheet.createRow(x+1);
-            createCellAndStyle(row,0,String.valueOf(x+1),style);
-            createCellAndStyle(row,1,teacher.getName(),style);
-            createCellAndStyle(row,2,teacher.getAge()==null?"":String.valueOf(teacher.getAge()),style);
-            createCellAndStyle(row,3,1==teacher.getGender()?"男":"女",style);
-            createCellAndStyle(row,4,teacher.getTele(),style);
-            createCellAndStyle(row,5,teacher.getEmail(),style);
-            createCellAndStyle(row,6,teacher.getWxh(),style);
-            createCellAndStyle(row,7,teacher.getAddress(),style);
-            createCellAndStyle(row,8,teacher.getSubName(),style);
-            createCellAndStyle(row,9,teacher.getMemo(),style);
+        for (int x = 0; x < teacherList.size(); x++) {
+            Teacher teacher = teacherList.get(x);
+            Row row = sheet.createRow(x + 1);
+            createCellAndStyle(row, 0, String.valueOf(x + 1), style);
+            createCellAndStyle(row, 1, teacher.getName(), style);
+            createCellAndStyle(row, 2, teacher.getAge() == null ? "" : String.valueOf(teacher.getAge()), style);
+            createCellAndStyle(row, 3, 1 == teacher.getGender() ? "男" : "女", style);
+            createCellAndStyle(row, 4, teacher.getTele(), style);
+            createCellAndStyle(row, 5, teacher.getEmail(), style);
+            createCellAndStyle(row, 6, teacher.getWxh(), style);
+            createCellAndStyle(row, 7, teacher.getAddress(), style);
+            createCellAndStyle(row, 8, teacher.getSubName(), style);
+            createCellAndStyle(row, 9, teacher.getMemo(), style);
         }
         try {
             out = response.getOutputStream();
@@ -211,6 +198,57 @@ public class TeacherServiceImpl implements TeacherService {
                 }
             }
         }
+    }
+
+    @Override
+    public List<List<TeacherSchedule>> getTeacherSchedule(Long teacherId) {
+        int[] weeks = {1, 2, 3, 4, 5, 6, 7};
+        List<List<TeacherSchedule>> scheduleData = new ArrayList<>();
+        int max = teacherDao.getMaxCount();
+        Map<String, Object> sqlMap = new HashedMap();
+        sqlMap.put("teacherId", teacherId);
+        for (int x : weeks) {
+            sqlMap.put("week", x);
+            List<TeacherSchedule> schedule = teacherDao.getSingleDayTeacherSchedule(sqlMap);
+            if (schedule.size() < max) {
+                //循环添加会改变原数组的长度，新建一个临时存放null值的集合,存放完毕之后在清空
+                List<TeacherSchedule> temporary = new ArrayList<>();
+                for (int z = 0; z < max - schedule.size(); z++) {
+                    temporary.add(null);
+                }
+                schedule.addAll(temporary);
+                temporary.clear();
+            }
+            scheduleData.add(schedule);
+        }
+
+        List<List<TeacherSchedule>> rows = new ArrayList();
+        for (int x = 0; x < max; x++) {
+            List<TeacherSchedule> row = new ArrayList<>();
+            for (int y = 0; y < scheduleData.size(); y++) {
+                List<TeacherSchedule> col = scheduleData.get(y);
+                for (int z = 0; z < col.size(); z++) {
+                    if (z == x) {
+                        row.add(col.get(z));
+                    }
+                }
+            }
+            rows.add(row);
+        }
+        return rows;
+    }
+
+    @Override
+    public JSONArray getTeacherSelectSubJSON(Map map) {
+        List<Subject> list = (List<Subject>) teacherDao.getSubInfoByTeacherId(map);
+        JSONArray arr = new JSONArray();
+        for (Subject sub : list) {
+            JSONObject obj = new JSONObject();
+            obj.put("id", sub.getSubId());
+            obj.put("text", sub.getSubName());
+            arr.add(obj);
+        }
+        return arr;
     }
 
     /**
