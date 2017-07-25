@@ -22,4 +22,8 @@
     <select id="isExist" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM subject where sub_name=#{subName}
     </select>
+
+    <select id="getSubNameById" parameterType="long" resultType="string">
+        select sub_name from subject where sub_id=#{subjectId}
+    </select>
 </mapper>

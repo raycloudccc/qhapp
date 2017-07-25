@@ -30,6 +30,8 @@
             transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
         }
     </style>
+
+
     <script type="text/javascript">
         $(function () {
             $('#teacherTable').bootstrapTable({
@@ -45,11 +47,8 @@
                 dataType: 'json',
                 showToggle: true,
                 showRefresh: true,
-//                method:"post",
-//                contentType:"application/x-www-form-urlencoded",
                 queryParams: queryParams,
                 toolbar: $('#tool'),
-//                searchText:'输入您想要搜索的内容',
                 columns: [{
                     field: 'id',
                     checkbox: true,
@@ -105,8 +104,34 @@
                     }, {
                         field: 'memo',
                         title: '备注'
-                    }]
+                    }],
+                onLoadSuccess:function(data){
+                    var rows=data.rows;
+                    $(rows).each(function(index,value){
+                        $('#teacherTable tbody tr:eq('+index+')').mousedown(function(e){
+                            if (e.button == 2) {
+                                //右键弹出菜单
+                                $.contextMenu({
+                                    selector: '#teacherTable tbody tr:eq('+index+')',
+                                    items: {
+                                        foo: {name: "课表信息", callback: function(key, opt){showScheduleInfo(value.teacherId)}}
+                                    }
+                                });
+                            }
+                        })
+                    })
+                }
             });
+        });
+
+
+        function showScheduleInfo(teacherId){
+            top.openWithWin('teacher/checkTeacherSchedule?teacherId='+teacherId,900,900);
+        }
+
+        $(document).bind("contextmenu",function(e){
+            return false;
+
         });
 
 
@@ -189,5 +214,6 @@
         <input class="c" name="search">
     </div>
 </div>
+
 </body>
 </html>

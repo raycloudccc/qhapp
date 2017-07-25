@@ -20,4 +20,6 @@ public interface ClassroomDao {
     public int isExist(String className);
 
     public void deleteClass(Long classId);
+
+    public String getNameById(long classId);
 }

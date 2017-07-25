@@ -41,7 +41,6 @@ public class StudentServiceImpl implements StudentService{
     public JSONObject getStudentList(Map map) {
         List<Student> studentList=studentDao.getStudentList(map);
         int total=studentDao.countStudent(map);
-        System.out.println(total);
         return dataGridUtils.parseJSON(total,studentList);
     }
 
@@ -75,7 +74,7 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public boolean deleteStudent(String arr) {
         boolean result=false;
-        String ids[] =arr.split("&");
+        String ids[] =arr.split("-");
         Map<String,Object> map=new HashedMap();
         map.put("status",0);
         for(String id:ids){

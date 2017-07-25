@@ -3,7 +3,8 @@
 
 <mapper namespace="com.noname.qh.dao.ClassroomDao">
     <select id="listClassroom" resultType="com.noname.qh.entity.Classroom" parameterType="java.util.Map">
-        select class_id classId,class_name className,create_time createTime from classroom order by create_time LIMIT #{start},#{end}
+        select class_id classId,class_name className,create_time createTime from classroom order by create_time
+        <if test="start!=null and end!=null">LIMIT #{start},#{end}</if>
     </select>
 
     <select id="CountClassroom" resultType="int">
@@ -21,4 +22,8 @@
     <delete id="deleteClass" parameterType="long">
         delete from classroom where class_id=#{classId}
     </delete>
+
+    <select id="getNameById" parameterType="long" resultType="string">
+        select class_name from classroom where class_id=#{classId}
+    </select>
 </mapper>

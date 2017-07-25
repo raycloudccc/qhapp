@@ -11,74 +11,118 @@
     <jsp:include page="header.jsp"></jsp:include>
     <script>
         $(function () {
-            $('#tt').edatagrid({
-                title: '教室列表',
-                fit: true,
-                striped: true,
-                rownumbers: true,
-                singleSelect: false,
-                pagination: true,
-                pageSize: 50,
+            $('#classTable').bootstrapTable({
                 url: 'getClassList',
+                cache: false,
+                height: $('#father').height() - 30,
+                striped: true,
+                pagination: true,
+                sidePagination: "server",
+                pageNumber: 1,
+                pageSize: 50,
+                pageList: [10, 25, 50, 100],
+                dataType: 'json',
+                showToggle: true,
+                showRefresh: true,
                 toolbar: $('#tool'),
-                queryParams: {
-                    name: '',
-                    value: ''
+                columns: [{
+                    field: 'id',
+                    checkbox: true,
+                    title: '#',
+                    width: 30
                 },
-                columns: [[
-                    {field: 'action', title: '', width: 100, checkbox: true},
-                    {field: 'className', title: '教室', width: 80}
-                ]]
+                    {
+                        field: 'Number',
+                        title: '序号',
+                        formatter: function (value, row, index) {
+                            return index + 1;
+                        },
+                        width: 100
+                    },
+                    {
+                        field: 'className',
+                        title: '教室',
+                        width: 700
+                    }]
             });
         });
 
-
-        function addClass() {
-           top.openWithWin("新建教室","classroom/addClass","",300,300);
+        function addSubject() {
+            top.openWithWin('classroom/addClass', 400);
         }
 
-        function deleteClass() {
-            var arr=[];
-            var rows=$('#tt').datagrid('getSelections');
-            $(rows).each(function(index,value){
-                arr.push(value.classId);
-            })
-            $.ajax({
-                url:'deleteClass',
-                data:{
-                    ids:arr.join("-")
-                },
-                dataType:'text',
-                type:'post',
-                success:function(result){
-                    if(result=="true"){
-                        reload();
-                        $.messager.show({
-                            title:'操作提示',
-                            msg:'删除成功',
-                            timeout:2000,
-                            showType:'slide'
-                        });
+        function reload() {
+            var opt = {
+                url: "getClassList",
+                silent: true
+            };
+            $("#classTable").bootstrapTable('refresh', opt);
+        }
 
-                    }else{
-                        $.messager.alert('操作提示','删除失败','');
+
+        function deleteSubject() {
+            var arrs = new Array();
+            var selecteds = $('#subjectTable').bootstrapTable('getSelections');
+            $(selecteds).each(function (index, value) {
+                arrs.push(value.subId);
+            })
+            var rowids = arrs.join("-");
+            $.ajax({
+                url: 'deleteSubject',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    arrs: rowids
+                },
+                success: function (result) {
+                    if (result == true) {
+                        reload();
+                    } else {
+                        tip('操作提示', '删除失败', 400);
                     }
                 }
-            });
+            })
         }
 
-        function reload(){
-            $('#tt').edatagrid('reload');
+
+        function addClass(){
+            top.openWithWin('classroom/addClass',400);
+        }
+
+        function deleteClass(){
+            var arrs=new Array();
+            var selecteds = $('#classTable').bootstrapTable('getSelections');
+            $(selecteds).each(function(index,value){
+                arrs.push(value.classId);
+            })
+            var rowids=arrs.join("-");
+            $.ajax({
+                url: 'deleteClass',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    ids: rowids
+                },
+                success: function (result) {
+                    if (result == true) {
+                        reload();
+                    } else {
+                        tip('操作提示', '删除失败', 400);
+                    }
+                }
+            })
         }
     </script>
 
 
 </head>
 <body>
-<table id="tt"></table>
-<div id="tool">
-    <a href="#" class="easyui-linkbutton" onclick="addClass()">添加</a>
-    <a href="#" class="easyui-linkbutton" onclick="deleteClass()">删除</a>
+<div style="height:100% " id="father">
+    <table id="classTable"></table>
+    <div id="tool">
+        <button type="button" class="btn btn-success" onclick="addClass()">添加教室</button>
+        <button type="button" class="btn btn-danger" onclick="deleteClass()">删除教室</button>
+    </div>
 </div>
 </body>
 </html>

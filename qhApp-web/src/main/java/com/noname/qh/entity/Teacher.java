@@ -12,7 +12,7 @@ public class Teacher implements Serializable{
     private Long teacherId;
     private String name;
     private Integer age;
-    private int gender;
+    private Integer gender;
     private String tele;
     private String email;
     private String wxh;
@@ -48,11 +48,11 @@ public class Teacher implements Serializable{
         this.age = age;
     }
 
-    public int getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 

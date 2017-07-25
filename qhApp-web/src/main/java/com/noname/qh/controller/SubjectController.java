@@ -41,9 +41,9 @@ public class SubjectController {
     @RequestMapping("getSubjectList")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @ResponseBody
-    public JSONObject getSubjectList(@RequestParam("page") String page, @RequestParam("rows") String rows) {
+    public JSONObject getSubjectList(@RequestParam("limit") String limit, @RequestParam("offset") String offset) {
         Map<String, String> map = new HashMap<String, String>();
-        pageHelper.autoPage(page, rows, map);
+        pageHelper.autoPage(limit, offset, map);
         List<Subject> subs = subjectService.getSubjectList(map);
         int count = subjectService.getCountSubject();
         return dataGridUtils.parseJSON(count, subs);

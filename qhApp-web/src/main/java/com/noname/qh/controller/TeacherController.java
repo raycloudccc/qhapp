@@ -1,9 +1,12 @@
 package com.noname.qh.controller;
 
+import com.noname.qh.entity.Classroom;
 import com.noname.qh.entity.TeacherSchedule;
+import com.noname.qh.utils.JsonDateValueProcessor;
 import com.sun.net.httpserver.HttpContext;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +23,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by noname on 2017/4/24.
@@ -69,8 +74,9 @@ public class TeacherController {
     @Transactional
     @ResponseBody
     public boolean updateTeacher(Teacher teacher,@RequestParam("subids") String subids) {
-        System.out.println("---------:"+teacher);
-        System.out.println("---------:"+subids);
+        if(teacher.getGender()==null){
+            teacher.setGender(2);
+        }
         return teacherService.updateTeacher(teacher,subids);
     }
 
@@ -94,6 +100,9 @@ public class TeacherController {
     @ResponseBody
     @Transactional
     public boolean addTeacher(@RequestParam("subids") String subids,Teacher teacher) {
+        if(teacher.getGender()==null){
+            teacher.setGender(2);
+        }
         return teacherService.insertTeacher(teacher,subids);
     }
 
@@ -140,5 +149,71 @@ public class TeacherController {
         sqlMap.put("teacherId",teacherId);
         sqlMap.put("flag",0);
         return teacherService.getTeacherSelectSubJSON(sqlMap);
+    }
+
+    @RequestMapping("addTeacherSchedule")
+    public String addTeacherSchedule(@RequestParam(required = false,value="teacherId") Long teacherId,@RequestParam(required=false,value="week") int week,ModelMap modelMap){
+        List<Subject> subList=teacherService.teacherSub(teacherId);
+        List<Classroom> classList=teacherService.classList();
+        modelMap.put("subList",subList);
+        modelMap.put("classList",classList);
+        return "addteacherschedule";
+    }
+
+    @RequestMapping("affirmAddSchedule")
+    @ResponseBody
+    public String affirmAddSchedule(@RequestParam("stime") String stime,@RequestParam("etime") String etime,@RequestParam("week") int week,@RequestParam("subjectId") long subjectId,
+                                    @RequestParam("classId") long classId,@RequestParam("studentId") long studentId,@RequestParam("teacherId") long teacherId){
+        SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
+        Time start=null;
+        Time end=null;
+        try {
+            Date sdate=sdf.parse(stime);
+            start=new Time(sdate.getTime());
+            Date edate=sdf.parse(etime);
+            end=new Time(edate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        TeacherSchedule schedule=new TeacherSchedule();
+        schedule.setWeek(week);
+        schedule.setClassId(classId);
+        schedule.setStudentId(studentId);
+        schedule.setTeacherId(teacherId);
+        schedule.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        schedule.setSubjectId(subjectId);
+        schedule.setStime(start);
+        schedule.setEtime(end);
+        return teacherService.insertSchedule(schedule);
+    }
+
+    @RequestMapping("teacherScheduleJsonArray")
+    @ResponseBody
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public JSONArray teacherScheduleJsonArray(@RequestParam("teacherId") long teacherId){
+        List<List<TeacherSchedule>> scheduleList=teacherService.getTeacherSchedule(teacherId);
+        JsonConfig config = new JsonConfig();
+        config.registerJsonValueProcessor(Time.class,new JsonDateValueProcessor());
+        config.registerJsonValueProcessor(Timestamp.class,new JsonDateValueProcessor());
+        for(int x=0;x<scheduleList.size();x++){
+            List<TeacherSchedule> row= scheduleList.get(x);
+            for(int y=0;y<row.size();y++){
+                if(row.get(y)==null){
+                    row.remove(y);
+                    row.add(y,new TeacherSchedule());
+                }
+            }
+        }
+
+        JSONArray arr=new JSONArray();
+        JSONArray listJsonArray=arr.fromObject(scheduleList,config);
+        return listJsonArray;
+    }
+
+
+    @RequestMapping("removeSchedule")
+    @ResponseBody
+    public boolean removeSchedule(@RequestParam("id") long id){
+        return teacherService.removeSchedule(id);
     }
 }

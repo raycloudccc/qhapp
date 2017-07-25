@@ -20,4 +20,6 @@ public interface SubjectDao {
     public void deleteSubject(Long id);
 
     public int isExist(String subName);
+
+    public String getSubNameById(long subjectId);
 }

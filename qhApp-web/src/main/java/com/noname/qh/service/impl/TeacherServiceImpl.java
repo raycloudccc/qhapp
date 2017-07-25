@@ -1,7 +1,9 @@
 package com.noname.qh.service.impl;
 
-import com.noname.qh.entity.SubjectRelation;
-import com.noname.qh.entity.TeacherSchedule;
+import com.noname.qh.dao.ClassroomDao;
+import com.noname.qh.dao.SubjectDao;
+import com.noname.qh.entity.*;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
@@ -12,8 +14,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import com.noname.qh.dao.TeacherDao;
-import com.noname.qh.entity.Subject;
-import com.noname.qh.entity.Teacher;
 import com.noname.qh.service.TeacherService;
 import com.noname.qh.utils.DataGridUtils;
 import com.noname.qh.utils.PageHelper;
@@ -22,7 +22,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +43,10 @@ public class TeacherServiceImpl implements TeacherService {
     private DataGridUtils dataGridUtils;
     @Resource(name = "PageHelper")
     private PageHelper pageHelper;
+    @Resource(name="ClassroomDao")
+    private ClassroomDao classroomDao;
+    @Resource(name="SubjectDao")
+    private SubjectDao subjectDao;
 
     @Override
     public boolean insertTeacher(Teacher teacher, String subids) {
@@ -204,7 +211,11 @@ public class TeacherServiceImpl implements TeacherService {
     public List<List<TeacherSchedule>> getTeacherSchedule(Long teacherId) {
         int[] weeks = {1, 2, 3, 4, 5, 6, 7};
         List<List<TeacherSchedule>> scheduleData = new ArrayList<>();
-        int max = teacherDao.getMaxCount();
+        Integer max = teacherDao.getMaxCount(teacherId);
+        //若没有课表信息的情况，默认显示三个格子的高度
+        if(max==null){
+            max=3;
+        }
         Map<String, Object> sqlMap = new HashedMap();
         sqlMap.put("teacherId", teacherId);
         for (int x : weeks) {
@@ -249,6 +260,49 @@ public class TeacherServiceImpl implements TeacherService {
             arr.add(obj);
         }
         return arr;
+    }
+
+    @Override
+    public List<Subject> teacherSub(Long teacherId) {
+        Map<String,Object> sqlMap=new HashMap<>();
+        sqlMap.put("flag",0);
+        sqlMap.put("teacherId",teacherId);
+        return teacherDao.getSubInfoByTeacherId(sqlMap);
+    }
+
+    public List<Classroom> classList(){
+        return classroomDao.listClassroom(new HashMap());
+    }
+
+    @Override
+    public String insertSchedule(TeacherSchedule schedule) {
+        String result="false";
+        //先检测冲突
+        Map<String,Object> sqlMap=new HashMap<String,Object>();
+        sqlMap.put("week",schedule.getWeek());
+        sqlMap.put("stime",schedule.getStime());
+        sqlMap.put("etime",schedule.getEtime());
+        sqlMap.put("teacherId",schedule.getTeacherId());
+        int count=teacherDao.checkScheduleConflict(sqlMap);
+        if(count>=1){
+            result="conflict";
+        }else{
+            String className=classroomDao.getNameById(schedule.getClassId());
+            String subjectName=subjectDao.getSubNameById(schedule.getSubjectId());
+            schedule.setClassName(className);
+            schedule.setSubjectName(subjectName);
+            teacherDao.insertSchedule(schedule);
+            result="true";
+        }
+        return result;
+    }
+
+    @Override
+    public boolean removeSchedule(long id) {
+        boolean result;
+        teacherDao.removeSchedule(id);
+        result=true;
+        return result;
     }
 
     /**

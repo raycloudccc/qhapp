@@ -127,7 +127,7 @@
                     if (state == true) {
                         $(this).val("1");
                     } else {
-                        $(this).val("0")
+                        $(this).val("000")
                     }
                 }
             })

@@ -10,98 +10,90 @@
 <html>
 <head>
     <jsp:include page="header.jsp"></jsp:include>
-    <script type="text/javascript">
-        $(function () {
-            $('#tt').edatagrid({
-                title: '学科列表',
-                fit: true,
-                striped: true,
-                rownumbers: true,
-                singleSelect: false,
-                pagination: true,
-                pageSize:50,
-                url: 'getSubjectList',
-                toolbar:$('#tool'),
-                queryParams: {
-                    name: '',
-                    value: ''
-                },
-                columns: [[
-                    {field: 'action', title: '', width: 100, checkbox: true},
-                    {field: 'subName', title: '学科', width: 100}
-                ]]
+        <script type="text/javascript">
+            $(function () {
+                $('#subjectTable').bootstrapTable({
+                    url: 'getSubjectList',
+                    cache: false,
+                    height: $('#father').height() - 30,
+                    striped: true,
+                    pagination: true,
+                    sidePagination: "server",
+                    pageNumber: 1,
+                    pageSize: 50,
+                    pageList: [10, 25, 50, 100],
+                    dataType: 'json',
+                    showToggle: true,
+                    showRefresh: true,
+                    toolbar: $('#tool'),
+                    columns: [{
+                        field: 'id',
+                        checkbox: true,
+                        title: '#',
+                        width:30
+                    },
+                        {
+                            field: 'Number',
+                            title: '序号',
+                            formatter: function (value, row, index) {
+                                return index+1;
+                            },
+                            width:100
+                        },
+                        {
+                            field: 'subName',
+                            title: '学科',
+                            width:700
+                        }]
+                });
             });
-        });
 
-        function edit(teacherId) {
-            var data = {
-                'teacher_id': teacherId
+            function addSubject(){
+                top.openWithWin('subject/toAddSubject',400);
             }
-            parent.openWithWin("编辑教师", 'teacher/toUpdateTeacher', data, 250, 370);
-        }
+
+            function reload(){
+                var opt = {
+                    url: "getSubjectList",
+                    silent: true
+                };
+                $("#subjectTable").bootstrapTable('refresh', opt);
+            }
 
 
-        function reload() {
-            $('#tt').edatagrid('reload');
-        }
-
-
-        function add() {
-            parent.openWithWin('添加学科', 'subject/toAddSubject', '', 250, 150);
-        }
-
-        function dele() {
-            var arr = [];
-            var rows = $('#tt').datagrid('getSelections');
-            $(rows).each(function () {
-                arr.push(this.subId);
-            });
-            var arrs = arr.join("&");
-            $.ajax({
-                url: 'deleteSubject',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    arrs: arrs
-                },
-
-                success: function (result) {
-                    if (result == true) {
-                        reload();
-                        cancel();
-                        $.messager.show({
-                            title: '操作提示',
-                            msg: '删除成功',
-                            timeout: 2000,
-                            showType: 'slide'
-                        });
-                    } else {
-                        $.messager.alert('操作提示', '修改失败', '');
+            function deleteSubject(){
+                var arrs=new Array();
+                var selecteds = $('#subjectTable').bootstrapTable('getSelections');
+                $(selecteds).each(function(index,value){
+                    arrs.push(value.subId);
+                })
+                var rowids=arrs.join("-");
+                $.ajax({
+                    url: 'deleteSubject',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        arrs: rowids
+                    },
+                    success: function (result) {
+                        if (result == true) {
+                            reload();
+                        } else {
+                            tip('操作提示', '删除失败', 400);
+                        }
                     }
-                }
-            });
-
-        }
-
-        function cancel() {
-            $('#w').window('close');
-        }
-
-        //教师查询，通过指定字段查询，name:字段名称，value：用户输入值
-        function qq(value, name) {
-            $('#tt').datagrid('load', {
-                'name': name,
-                'value': value
-            });
-        }
+                })
+            }
 
     </script>
 </head>
 <body>
-<div id="tool">
-    <a href="#" class="easyui-linkbutton" onclick="add()">添加</a>
-    <a href="#" class="easyui-linkbutton" onclick="dele()">删除</a>
+<div style="height:100% " id="father">
+    <table id="subjectTable"></table>
+    <div id="tool">
+        <button type="button" class="btn btn-success" onclick="addSubject()">添加学科</button>
+        <button type="button" class="btn btn-danger" onclick="deleteSubject()">删除学科</button>
+    </div>
 </div>
-<table id="tt"></table>
 </body>
 </html>

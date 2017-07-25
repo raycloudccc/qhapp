@@ -3,6 +3,7 @@ package com.noname.qh.utils;
 import net.sf.json.JsonConfig;
 import net.sf.json.processors.JsonValueProcessor;
 import java.sql.Date;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -24,8 +25,11 @@ public class JsonDateValueProcessor implements JsonValueProcessor {
         if (value instanceof Date) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
             return sdf.format(value);
-        } else if (value instanceof java.sql.Timestamp || value instanceof java.util.Date) {
+        } else if (value instanceof java.sql.Timestamp ) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
+            return sdf.format(value);
+        }else if(value instanceof Time){
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.UK);
             return sdf.format(value);
         }
         return value == null ? "" : value.toString();

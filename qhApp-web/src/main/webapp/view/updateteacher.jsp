@@ -21,7 +21,6 @@
             if (flag == false) {
                 return;
             }
-//            var subids=$('#form').data("bootstrapValidator").getFieldElements("sub").val();
             var subids=$('#sub').val()
             var arr=subids.join("-");
             $.ajax({

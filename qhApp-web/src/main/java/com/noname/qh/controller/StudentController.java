@@ -39,18 +39,23 @@ public class StudentController {
     @ResponseBody
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public JSONObject getStudentList(@RequestParam("limit") String limit, @RequestParam("offset") String offset, @RequestParam(required = false,value="search") String search) {
-        System.out.println("-----:"+limit);
         Map<String, Object> map = new HashMap<>();
         map.put("status", 1);
-        map.put("search","%"+search+"%");
+        if(search==null){
+            map.put("search","%%");
+        }else{
+            map.put("search","%"+search+"%");
+        }
+
         pageHelper.autoPage(limit, offset, map);
+        System.out.println("aaaaaaaa:"+studentService.getStudentList(map));
         return studentService.getStudentList(map);
     }
 
 
     @RequestMapping("toUpdateStudent")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public String toUpdateStudent(@RequestParam("student_id") String studentId, ModelMap modelMap) {
+    public String toUpdateStudent(@RequestParam("stuId") String studentId, ModelMap modelMap) {
         Student stu = studentService.getStudentInfo(studentId);
         modelMap.put("stu", stu);
         return "updatestudent";
@@ -60,6 +65,9 @@ public class StudentController {
     @Transactional
     @ResponseBody
     public boolean updateStudent(Student student) {
+        if(student.getGender()==null){
+            student.setGender(2);
+        }
         return studentService.updateStudent(student);
     }
 
@@ -72,6 +80,9 @@ public class StudentController {
     @Transactional
     @ResponseBody
     public boolean addStudent(Student student){
+        if(student.getGender()==null){
+            student.setGender(2);
+        }
         return studentService.addStudent(student);
     }
 
@@ -79,7 +90,7 @@ public class StudentController {
     @RequestMapping("deleteStudent")
     @Transactional
     @ResponseBody
-    public boolean deleteStudent(@RequestParam("arrs") String arrs){
+    public boolean deleteStudent(@RequestParam("arrString") String arrs){
         return studentService.deleteStudent(arrs);
     }
 

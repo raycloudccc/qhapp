@@ -67,14 +67,33 @@
                     },
                     {
                         field: 'name',
-                        title: '姓名'
+                        title: '姓名',
+                        formatter:function(value,row,index){
+                            var a='<a href="#" onclick="updateStudent('+row.stuId+')">'+value+'</a>'
+                            return a;
+                        }
                     }, {
                         field: 'age',
-                        title: '年龄'
+                        title: '年龄',
+                        formatter:function(value,row,index){
+                            if(value==0){
+                                return '';
+                            }else{
+                                return value;
+                            }
+
+                        }
                     },
                     {
                         field: 'gender',
-                        title: '性别'
+                        title: '性别',
+                        formatter:function(value,row,index){
+                            if(value==1){
+                               return '男';
+                            }else{
+                                return '女';
+                            }
+                        }
                     },
                     {
                         field: 'tele',
@@ -113,7 +132,43 @@
 
 
         function addStudent(){
-            top.openWithWin('student/toAddStudent',400)
+            top.openWithWin('student/toAddStudent',400);
+        }
+
+        function deleteStudent(){
+            var rows=$('#studentTable').bootstrapTable('getSelections');
+            var arr=new Array();
+            $(rows).each(function(index,value){
+                arr.push(value.stuId);
+            });
+            var arrString=arr.join("-");
+            alert(arrString);
+            $.ajax({
+                url:'deleteStudent',
+                type:'post',
+                dataType:'json',
+                data:{
+                    arrString:arrString
+                },
+                success:function(result){
+                    if(result==true){
+                        parent.closeModal();
+                        reload();
+                    }else{
+                        parent.tip('操作提示','删除失败',400);
+                    }
+                }
+            });
+        }
+
+
+        function exportStudent(){
+            location.href="exportData";
+        }
+
+
+        function updateStudent(stuid){
+            top.openWithWin('student/toUpdateStudent?stuId='+stuid,400);
         }
     </script>
 </head>
@@ -122,8 +177,8 @@
     <table id="studentTable"></table>
     <div id="tool">
         <button type="button" class="btn btn-success" onclick="addStudent()">添加学生</button>
-        <button type="button" class="btn btn-danger">删除学生</button>
-        <button type="button" class="btn btn-info">导出学生信息</button>
+        <button type="button" class="btn btn-danger" onclick="deleteStudent()">删除学生</button>
+        <button type="button" class="btn btn-info" onclick="exportStudent()">导出学生信息</button>
         <input type="text" class="c" >
     </div>
 </div>

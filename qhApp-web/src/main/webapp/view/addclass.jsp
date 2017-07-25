@@ -9,62 +9,67 @@
 <html>
 <head>
     <script>
-        function save(){
-            var check=$('#ff').form('validate');
-            if(check==false){
-                return;
-            }
-
-            $.ajax({
-                url:'classroom/saveClass',
-                dataType:'text',
-                type:'post',
-                data:$('#ff').serialize(),
-                success:function(result){
-                    if(result=='exist'){
-                        $.messager.alert('消息提示','该教室已经存在！','');
-                    }else if(result=='false'){
-                        $.messager.alert('消息提示','添加失败','');
-                    }else{
-                        cancel();
-                        mframe.reload();
-                        $.messager.show({
-                            title:'操作提示',
-                            msg:'操作成功',
-                            timeout:2000,
-                            showType:'slide'
-                        });
-
+        $(function () {
+            $('form').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    classname: {
+                        message: '教师验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '教室名不可为空'
+                            },
+                            regexp: {
+                                regexp: /^[\u4e00-\u9fa5_a-zA-Z0-9_]{1,20}$/,
+                                message: '请输入长度为1-20的中英文或者数字'
+                            }
+                        }
                     }
                 }
             });
-        }
-
-        function cancel(){
-            $('#w').window('close');
-        }
-
-
-        $.extend($.fn.validatebox.defaults.rules, {
-            name: {
-                validator: function(value, param){
-                    return /^(?!_)(?!.*?_$)[a-zA-Z0-9_\u4e00-\u9fa5]+$/.test(value);
-                },
-                message: 'Please enter at least {0} characters.'
-            }
         });
+
+        function addSubject() {
+            $('#form').data('bootstrapValidator').validate();
+            var flag = $('#form').data("bootstrapValidator").isValid();
+            if (flag == false) {
+                return;
+            }
+            $.ajax({
+                url:'classroom/saveClass',
+                type:'post',
+                data:$('form').serialize(),
+                dataType:'text',
+                success:function(result){
+                    if(result=='true'){
+                        closeModal();
+                        mframe.reload();
+                        //清空所有验证
+                        $('#form').data('bootstrapValidator').resetForm();
+                        //清空表单数据
+                        $('#form')[0].reset();
+                    }else if(result=='exist'){
+                        parent.tip('操作提示','该教室已经存在',400);
+                    }else{
+                        parent.tip('操作提示','添加失败',400);
+                    }
+                }
+            })
+        }
     </script>
 </head>
 <body>
-<form id="ff" method="post">
-    <div>
-        名称:
-        <input class="easyui-validatebox" type="text" name="className" data-options="required:true"/>
+<form class="well" id="form">
+    <div class="form-group">
+        <label>教室</label>
+        <input type="text" class="form-control" placeholder="请输入教室名" name="className">
     </div>
-    <div style="margin-top:5px">
-        <a href="#" class="easyui-linkbutton" onclick="save()" style="margin-right:5px">保存</a>
-        <a href="#" class="easyui-linkbutton" onclick="cancel()">取消</a>
-    </div>
+    <button class="btn" onclick="addSubject()">确认添加</button>
 </form>
 </body>
 </html>

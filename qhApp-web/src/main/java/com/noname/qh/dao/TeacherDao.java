@@ -47,7 +47,13 @@ public interface TeacherDao {
 
     public List<TeacherSchedule> getSingleDayTeacherSchedule(Map map);
 
-    public int getMaxCount();
+    public Integer getMaxCount(Long teacherId);
 
     public List<Subject> getSubInfoByTeacherId(Map map);
+
+    public void insertSchedule(TeacherSchedule schedule);
+
+    public int checkScheduleConflict(Map map);
+
+    public void removeSchedule(long id);
 }

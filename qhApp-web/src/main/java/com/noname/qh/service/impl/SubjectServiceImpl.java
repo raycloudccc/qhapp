@@ -49,7 +49,7 @@ public class SubjectServiceImpl implements SubjectService{
     @Override
     public boolean deleteSubject(String arrs) {
         boolean result=false;
-        String[] subId=arrs.split("&");
+        String[] subId=arrs.split("-");
         for(String id:subId){
             subjectDao.deleteSubject(Long.valueOf(id));
         }

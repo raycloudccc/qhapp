@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class TeacherSchedule {
     private Long scheduleId;
     private Long teacherId;
-    private Long StudentId;
+    private Long studentId;
     private Time stime;
     private Time etime;
     private int week;
@@ -36,11 +36,11 @@ public class TeacherSchedule {
     }
 
     public Long getStudentId() {
-        return StudentId;
+        return studentId;
     }
 
     public void setStudentId(Long studentId) {
-        StudentId = studentId;
+        this.studentId = studentId;
     }
 
     public Time getStime() {
@@ -112,7 +112,7 @@ public class TeacherSchedule {
         return "TeacherSchedule{" +
                 "scheduleId=" + scheduleId +
                 ", teacherId=" + teacherId +
-                ", StudentId=" + StudentId +
+                ", studentId=" + studentId +
                 ", stime=" + stime +
                 ", etime=" + etime +
                 ", week=" + week +

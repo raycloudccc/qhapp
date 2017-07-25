@@ -1,11 +1,8 @@
 package com.noname.qh.service;
 
-import com.noname.qh.entity.SubjectRelation;
-import com.noname.qh.entity.TeacherSchedule;
+import com.noname.qh.entity.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import com.noname.qh.entity.Subject;
-import com.noname.qh.entity.Teacher;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -36,5 +33,13 @@ public interface TeacherService {
     public List<List<TeacherSchedule>> getTeacherSchedule(Long teacherId);
 
     public JSONArray getTeacherSelectSubJSON(Map map);
+
+    public List<Subject> teacherSub(Long teacherId);
+
+    public List<Classroom> classList();
+
+    public String insertSchedule(TeacherSchedule schedule);
+
+    public boolean removeSchedule(long id);
 
 }

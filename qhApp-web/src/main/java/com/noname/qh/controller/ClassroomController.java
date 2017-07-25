@@ -33,9 +33,9 @@ public class ClassroomController {
     @RequestMapping("getClassList")
     @ResponseBody
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public JSONObject getClassList(@RequestParam("page") String pageNo, @RequestParam("rows") String pageSize){
+    public JSONObject getClassList(@RequestParam("limit") String limit, @RequestParam("offset") String offset){
         Map<String,Object> map=new HashMap();
-        return classroomService.listClassroom(pageNo,pageSize,map);
+        return classroomService.listClassroom(limit,offset,map);
     }
 
     @RequestMapping("addClass")

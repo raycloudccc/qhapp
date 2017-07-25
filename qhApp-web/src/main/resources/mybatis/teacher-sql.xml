@@ -135,8 +135,8 @@
         from teacher_schedule where teacher_id=#{teacherId} and week=#{week} order by stime
     </select>
 
-    <select id="getMaxCount" resultType="int">
-        select max(a) from (select count(*) as a from teacher_schedule where teacher_id=6 group by week) as b
+    <select id="getMaxCount" resultType="java.lang.Integer" parameterType="long">
+        select max(a) from (select count(*) as a from teacher_schedule where teacher_id=#{teacherId} group by week) as b
     </select>
 
     <select id="getSubInfoByTeacherId" parameterType="java.util.Map" resultType="com.noname.qh.entity.Subject">
@@ -147,4 +147,17 @@
         on relation.obj_id=t.teacher_id
         where relation.obj_id=#{teacherId} and relation.sub_flag=#{flag}
     </select>
+
+    <insert id="insertSchedule" parameterType="com.noname.qh.entity.TeacherSchedule">
+        insert into teacher_schedule (teacher_id,student_id,stime,etime,week,subject_id,subject_name,class_id,class_name,create_time) values
+        (#{teacherId},#{studentId},#{stime},#{etime},#{week},#{subjectId},#{subjectName},#{classId},#{className},#{createTime})
+    </insert>
+    
+    <select id="checkScheduleConflict" parameterType="java.util.Map" resultType="int">
+        select count(1) from teacher_schedule where week=#{week} and ((#{stime} &lt;= etime and #{stime} &gt;= stime) or (#{etime} &lt;= etime and #{etime} &gt;= stime) or (#{stime} &lt;= stime and #{etime} &gt;= etime) or (#{stime} &gt;= stime and #{etime} &lt;= etime)) and teacher_id=#{teacherId}
+    </select>
+
+    <delete id="removeSchedule" parameterType="long">
+        delete from teacher_schedule where schedule_id=#{id}
+    </delete>
 </mapper>

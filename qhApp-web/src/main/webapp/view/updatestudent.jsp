@@ -12,115 +12,171 @@
 <html>
 <head>
     <style type="text/css">
-        .field{
-            margin-bottom:5px;
-        }
-
     </style>
     <script type="text/javascript">
-        $.extend($.fn.validatebox.defaults.rules, {
-            age: {// 验证年龄
-                validator: function (value) {
-                    return /^(?:[1-9][0-9]?|1[01][0-9]|120)$/i.test(value);
+        $(function () {
+            $('form').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
                 },
-                message: '年龄必须是0到120之间的整数'
-            },
-            mobile: {// 验证手机号码
-                validator: function (value) {
-                    return /^(13|15|18)\d{9}$/i.test(value);
-                },
-                message: '手机号码格式不正确'
-            },
-            name: {// 验证姓名，可以是中文或英文
-                validator: function (value) {
-                    return /^[\u4E00-\u9FA5A-Za-z]+$/.test(value);
-                },
-                message: '姓名输入有误'
-            },
-            wxh: {// 验证姓名，可以是中文或英文
-                validator: function (value) {
-                    return /^[a-zA-Z\d_]{5,}$/.test(value);
-                },
-                message: '请输入正确的微信号'
-            },
+                fields: {
+                    name: {
+                        message: '用户名验证失败',
+                        validators: {
+                            notEmpty: {
+                                message: '姓名不可为空'
+                            },
+                            regexp: {
+                                regexp: /^[\u4E00-\u9FA5A-Za-z]+$/,
+                                message: '姓名只可以是中英文'
+                            }
 
-
-        });
-
-
-        function save() {
-            var flag = $('#editStudent').form('validate');
-            if (flag) {
-                $('#editStudent').form('submit', {
-                    url: 'student/updateStudent',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: $('#editStudent').serialize(),
-                    success: function (result) {
-                        if (result == 'true') {
-                            mframe.reload();
-                            cancel();
-                            $.messager.show({
-                                title: '操作提示',
-                                msg: '修改成功',
-                                timeout: 2000,
-                                showType: 'slide'
-                            });
-                        } else {
-                            $.messager.alert('操作提示', '修改失败', '');
+                        }
+                    },
+                    age: {
+                        validators: {
+                            regexp: {
+                                regexp: /^(?:[1-9][0-9]?|1[01][0-9]|120)$/i,
+                                message: '年龄必须是0到120之间的整数'
+                            }
+                        }
+                    },
+                    tele: {
+                        validators: {
+                            regexp: {
+                                regexp: /^(13|15|18)\d{9}$/i,
+                                message: '手机号码格式不正确'
+                            }
+                        }
+                    },
+                    wxh: {
+                        validators: {
+                            regexp: {
+                                regexp: /^[a-zA-Z\d_]{5,}$/,
+                                message: '微信号格式不正确'
+                            }
+                        }
+                    },
+                    enroldate: {
+                        validators: {
+                            notEmpty: {
+                                message: '入学日期必须填写'
+                            }
                         }
                     }
-                });
+                }
+            });
+
+
+            $('[name="gender"]').bootstrapSwitch({
+                onText: "男",
+                offText: "女",
+                onColor: "success",
+                offColor: "info",
+                size: "small",
+                //如果开关处于关的状态下不会获取到value值，Controller的param则不会接收到
+                onSwitchChange: function (event, state) {
+                    if (state == true) {
+                        $(this).val("1");
+                    } else {
+                        $(this).val("0");
+                    }
+                }
+            });
+
+
+            $('#datetimepicker').datetimepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true,
+                showMeridian: false,
+                minView: 2,
+                maxView: 2
+
+            });
+
+            //解决更改了时间却无法隐藏模态框的异常
+            $('#datetimepicker').datetimepicker().on('changeDate', function(ev) {
+            }).on('hide', function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            });
+        })
+
+
+        function updateStudent(){
+            $('#form').data('bootstrapValidator').validate();
+            var flag = $('#form').data("bootstrapValidator").isValid();
+            if (flag == false) {
+                return;
             }
+            $.ajax({
+                url:'student/updateStudent',
+                type:'post',
+                dataType:'json',
+                data:$('#form').serialize(),
+                success:function(result){
+                    if(result==true){
+                        mframe.reload();
+                        $('#form').data('bootstrapValidator').resetForm();
+                        $('#form').get(0).reset();
+                        closeModal();
+                    }else{
+                        tip('操作提示','修改失败',400);
+                    }
+                }
+            });
         }
-
-        function cancel() {
-            $('#w').window('close');
-        }
-
 
     </script>
 </head>
 <body>
-<form id="editStudent">
-    <div style="display:none"><input name="stuId" class="easyui-textbox" style="width:120px"
-                                     value="${stu.stuId}">
-    </div>
-    <div class="field">姓名:
-        <input name="name" class="easyui-textbox" style="width:120px" value="${stu.name}"
-               data-options="required:true,validType:'name'">
-    </div>
-    <div class="field">年龄:
-        <input name="age" class="easyui-textbox" style="width:120px" value="${stu.age}"
-               data-options="validType:'age'">
-    </div>
-    <div class="field">性别:
-        <select id="gender" class="easyui-combobox" name="gender" style="width:120px;">
-            <option value="1">男</option>
-            <option value="2" <c:if test="${stu.gender==2}">selected="selected"</c:if>>女</option>
-        </select>
-    </div>
-    <div class="field">手机:
-        <input name="tele" class="easyui-textbox" style="width:120px" value="${stu.tele}"
-               data-options="validType:'mobile'">
-    </div>
-    <div class="field">微信:
-        <input name="wxh" class="easyui-textbox" style="width:120px" value="${stu.wxh}"
-               data-options="validType:'wxh'">
-    </div>
-    <div class="field">地址:
-        <input name="address" class="easyui-textbox" style="width:120px" value="${stu.address}"
-               data-options="">
-    </div>
-    <div class="field">备注:
-        <textarea name="memo" style="width: 120px">${stu.memo}</textarea>
-    </div>
-    <div class="field">入学日期:
-        <input name="enroldate" type= "text" class= "easyui-datebox" required ="required" value="${stu.enroldate}" data-options="width:100"> </input>
-    </div>
+<div style="margin:10px">
+    <form class="well" id="form">
+        <div class="form-group" style="display: none">
+            <%--<label>姓名</label>--%>
+            <input type="text" class="form-control" placeholder="请输入学生姓名..." name="stuId" value="${param.stuId}">
+        </div>
+        <div class="form-group">
+            <label>姓名</label>
+            <input type="text" class="form-control" placeholder="请输入学生姓名..." name="name" value="${stu.name}">
+        </div>
+        <div class="form-group">
+            <label>年龄</label>
+            <input type="text" class="form-control" placeholder="请输入整数..." name="age" value="${stu.age}">
+        </div>
+        <div class="form-group">
+            <label>性别</label>
+            <div>
+                <input name="gender" type="checkbox" data-size="small" value="1" <c:if test="${stu.gender==1}">checked</c:if>>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>联系方式</label>
+            <input type="text" class="form-control" placeholder="请输入手机号..." name="tele" value="${stu.tele}">
+        </div>
+        <div class="form-group">
+            <label>入学日期</label>
+            <input type="text" id="datetimepicker" name="enroldate" class="form-control" value="${stu.enroldate}">
+        </div>
+        <div class="form-group">
+            <label>微信</label>
+            <input type="text" class="form-control" placeholder="请输入微信号..." name="wxh" value="${stu.wxh}">
+        </div>
+        <div class="form-group">
+            <label>联系住址</label>
+            <input type="text" class="form-control" placeholder="请输入家庭住址..." name="address" value="${stu.address}">
+        </div>
+        <div class="form-group">
+            <label>备注</label>
+            <textarea class="form-control" rows="3" name="memo">${stu.memo}</textarea>
+        </div>
 
-    <a href="#" class="easyui-linkbutton" onclick="save()">保存</a>
-    <a href="#" class="easyui-linkbutton" onclick="cancel()">取消</a>
-</form>
+        <button class="btn" onclick="updateStudent()">确认修改</button>
+    </form>
+</div>
 </body>
 </html>

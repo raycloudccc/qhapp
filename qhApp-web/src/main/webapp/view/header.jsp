@@ -8,11 +8,18 @@
 <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap-theme.css">
 <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="../bootstrap/css/bootstrap-table.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="../bootstrap/css/jquery.contextMenu.min.css">
 <script type="text/javascript" src="../plugs/js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../bootstrap/js/bootstrap-treeview.js"></script>
 <script src="../bootstrap/js/bootstrap-table.js"></script>
 <script src="../bootstrap/js/bootstrap-table-zh-CN.js"></script>
+<script src="../bootstrap/js/bootstrap-datetimepicker.js"></script>
+<script src="../bootstrap/js/bootstrap-datetimepicker.fr.js"></script>
+<script src="../bootstrap/js/bootstrap-contextmenu.js"></script>
+<script src="../bootstrap/js/BootstrapMenu.min.js"></script>
+<script src="../bootstrap/js/jquery.contextMenu.min.js"></script>
 <script type="text/javascript">
 <!--
 function tabstyle(){
