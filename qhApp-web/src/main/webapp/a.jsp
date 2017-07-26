@@ -60,25 +60,38 @@
         //打开一个模态图，远程加载页面，宽度可限定，高度自适应
         function openWithWin(url, wid,height) {
             $('#wid').width(wid)
-            $("#modal").modal({
-                remote:url
-            });
+            $.ajax({
+                url:url,
+                type:'post',
+                dataType:'text',
+                success:function(data){
+                    console.info(data)
+                    $('#content').html(data);
+                }
+            })
+            $("#modal").modal('show');
         }
 
         function openSecondWin(url, wid) {
-            $('#secondWid').css("width", wid + 'px')
-            $("#second").modal({
-                remote: url
-            });
+            $('#secondWid').width(wid);
+            $.ajax({
+                url:url,
+                type:'post',
+                dataType:'text',
+                success:function(data){
+                    $('#content2').html(data);
+                }
+            })
+            $("#second").modal('show');
         }
         //在每次隐藏模态框的同时清空所有数据
         $(function () {
             $('#modal').on('hide.bs.modal', function () {
-                $(this).removeData("bs.modal")
+                $('#content').html("");
             });
 
             $('#second').on('hide.bs.modal', function () {
-                $(this).removeData("bs.modal")
+                $('#content2').html("");
             });
 
             $('#tip').on('hide.bs.modal', function () {
@@ -138,7 +151,7 @@
 <div class="modal fade" id="modal" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" id="wid">
-        <div class="modal-content">
+        <div class="modal-content" id="content">
         </div>
     </div>
 </div>
@@ -172,7 +185,7 @@
      aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop='static'>
 
     <div class="modal-dialog" id="secondWid" >
-        <div class="modal-content">
+        <div class="modal-content" id="content2">
 
             <div class="modal-body" id="dlgMediaBody" style="text-align:center">
 

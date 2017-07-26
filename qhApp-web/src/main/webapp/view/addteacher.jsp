@@ -8,9 +8,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
-<html>
-<head>
-    <title>添加教师</title>
+<%--<html>--%>
+<%--<head>--%>
+    <%--<title>添加教师</title>--%>
     <style>
         form div {
             margin-bottom: 5px
@@ -135,8 +135,8 @@
 
 
     </script>
-</head>
-<body>
+<%--</head>--%>
+<%--<body>--%>
 <div style="margin:10px;">
     <form class="well" id="form">
         <div class="form-group"><label>姓名</label>
@@ -177,5 +177,5 @@
         <button class="btn" onclick="add()">确认添加</button>
     </form>
 </div>
-</body>
-</html>
+<%--</body>--%>
+<%--</html>--%>

@@ -8,9 +8,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
+<%--<html>--%>
+<%--<head>--%>
+    <%--<title>Title</title>--%>
     <style>
         .cell {
             width: 120px;
@@ -151,8 +151,8 @@
         }
 
     </script>
-</head>
-<body>
+<%--</head>--%>
+<%--<body>--%>
 <div id="win" style="margin:10px 25px">
     <div id="ddd">
         <table id="table" style="border-collapse: collapse">
@@ -194,5 +194,5 @@
     </ul>
 </div>
 
-</body>
-</html>
+<%--</body>--%>
+<%--</html>--%>

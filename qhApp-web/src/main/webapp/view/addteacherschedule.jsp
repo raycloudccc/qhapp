@@ -7,8 +7,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html style="width: 100%;height:100%">
-<head>
+<%--<html style="width: 100%;height:100%">--%>
+<%--<head>--%>
     <style>
         .popover-content {
             color: red
@@ -17,7 +17,6 @@
     </style>
     <script>
         var studentId;
-
         $('#f').bootstrapValidator({
             message: 'This value is not valid',
             feedbackIcons: {
@@ -230,8 +229,8 @@
 
 
     </script>
-</head>
-<body>
+<%--</head>--%>
+<%--<body>--%>
 <div style="overflow: auto">
     <div style="margin:10px;width:380px;float:left" id="a">
         <form id="f" class="well">
@@ -279,5 +278,5 @@
         <table id="studentTable"></table>
     </div>
 </div>
-</body>
-</html>
+<%--</body>--%>
+<%--</html>--%>
