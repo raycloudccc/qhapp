@@ -54,9 +54,9 @@
                         //清空表单数据
                         $('#form')[0].reset();
                     }else if(result=='exist'){
-                        parent.tip('操作提示','该教室已经存在',400);
+                        parent.showtip('该教室已经存在');
                     }else{
-                        parent.tip('操作提示','添加失败',400);
+                        parent.showtip('添加失败');
                     }
                 }
             })

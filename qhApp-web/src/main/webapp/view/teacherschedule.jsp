@@ -128,7 +128,7 @@
                     if(data==true){
                         reload();
                     }else{
-                        alert('删除失败');
+                        parent.showtip('删除失败')
                     }
                 }
             })

@@ -124,7 +124,7 @@
                         //清空表单数据
                         $('#form')[0].reset();
                     }else{
-                        parent.tip('操作提示','添加失败',400);
+                        parent.showtip('添加失败');
                     }
                 }
             })

@@ -125,7 +125,7 @@
                         $('#form').get(0).reset();
                         closeModal();
                     }else{
-                        tip('操作提示','修改失败',400);
+                        showtip('修改失败');
                     }
                 }
             });

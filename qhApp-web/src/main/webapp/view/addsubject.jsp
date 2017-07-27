@@ -56,9 +56,9 @@
                             //清空表单数据
                             $('#form')[0].reset();
                         }else if(result=='clash'){
-                            parent.tip('操作提示','该学科已经存在',400);
+                            parent.showtip('该学科已经存在');
                         }else{
-                            parent.tip('操作提示','添加失败',400);
+                            parent.showtip('添加失败');
                         }
                     }
                 })

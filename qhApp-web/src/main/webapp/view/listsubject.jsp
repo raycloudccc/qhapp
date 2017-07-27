@@ -79,7 +79,7 @@
                         if (result == true) {
                             reload();
                         } else {
-                            tip('操作提示', '删除失败', 400);
+                            showtip('删除失败');
                         }
                     }
                 })

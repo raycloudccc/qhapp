@@ -188,9 +188,9 @@
                         } else if (
                             'conflict' == result
                         ) {
-                            alert('选择的时间段已经被分配')
+                            parent.showtip('选择的时间段已经被分配');
                         } else {
-                            alert('添加课程失败')
+                            parent.showtip('添加课程失败');
                         }
                     }
                 });

@@ -32,6 +32,55 @@
             height: 100%
         }
 
+        .tip,.tipBack{
+            width:100%;
+            height:100%;
+            position: fixed;
+            top:0;
+            left:0
+        }
+
+        .tipContent{
+            width:300px;
+            height:150px;
+            position: fixed;
+            top:50%;
+            left:50%;
+            margin-left:-150px;
+            margin-top:-100px;
+            /*opacity: 0.5;*/
+            color: black;
+            text-align: center;
+            box-shadow: 2px 2px 2px 2px black;
+            border:1px groove #0000ff;
+            border-radius: 5px;
+        }
+
+        .tip{
+            display:none;
+            z-index: 999999999999;
+        }
+
+        .tipBack{
+            opacity: 0.3;
+        }
+
+
+        .text{
+            height:90px;
+            line-height: 90px;
+            background-color: #F5F5F5;
+        }
+
+        .affirm{
+            line-height: 30px;
+            background-color: #cccccc;
+        }
+
+        .affirm:hover{
+            background-color: #adadad;
+        }
+
     </style>
     <script type="text/javascript">
         var defaultWid=400;
@@ -65,7 +114,6 @@
                 type:'post',
                 dataType:'text',
                 success:function(data){
-                    console.info(data)
                     $('#content').html(data);
                 }
             })
@@ -94,14 +142,6 @@
                 $('#content2').html("");
             });
 
-            $('#tip').on('hide.bs.modal', function () {
-                $(this).removeData("bs.modal")
-            })
-
-            $('#tip').on('show.bs.modal', function () {
-                $(this).css('margin-top',$('iframe').height()/2-$(this).height()/4);
-                $(this).css('margin-left',$('iframe').width()/2-$(this).width/2);
-            })
         });
 
         function clearData(){
@@ -115,15 +155,6 @@
         }
 
 
-
-        //        用于提示框，如添加成功等信息
-        function tip(title, context, wid) {
-            $('#myModalLabel').html(title);
-            $('.modal-body').html(context);
-            $('#tip_wid').css("width", wid);
-            $('#tip').modal('show')
-        }
-
         function changeWid(wid){
             $('#secondWid').css("width", wid + 'px')
         }
@@ -132,6 +163,17 @@
         function closeSecond(){
                 $('#second').modal('hide');
         }
+
+        function showtip(content){
+            $('.text').html(content);
+            $('.tip').show();
+        }
+
+        function closeTip(){
+            $('.tip').hide();
+            $('.text').html('');
+        }
+
 
     </script>
 </head>
@@ -156,31 +198,6 @@
     </div>
 </div>
 
-<%--提示框--%>
-<div class="modal fade" id="tip" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" id="tip_wid">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close"
-                        data-dismiss="modal" aria-hidden="true">
-                    x
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                </h4>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal">关闭
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
-
 <div class="modal fade" id="second" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop='static'>
 
@@ -196,5 +213,16 @@
     </div>
 </div>
 
+<%--提示框--%>
+<div class="tip">
+    <div class="tipBack"></div>
+    <div class="tipContent">
+        <div style="height:30px;background-color: #5BC0DE;font-family: youyuan;line-height:30px;font-weight: bold" >提示消息</div>
+        <div class="text"></div>
+        <div class="affirm" onclick="closeTip()">
+            确认
+        </div>
+    </div>
+</div>
 </body>
 </html>

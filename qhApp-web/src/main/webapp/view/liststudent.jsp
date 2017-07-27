@@ -155,7 +155,7 @@
                         parent.closeModal();
                         reload();
                     }else{
-                        parent.tip('操作提示','删除失败',400);
+                        parent.showtip('删除失败');
                     }
                 }
             });

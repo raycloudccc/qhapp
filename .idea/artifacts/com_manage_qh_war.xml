@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="com.manage.qh:war">
+    <output-path>$PROJECT_DIR$/qhApp-web/target</output-path>
+    <root id="archive" name="manage-qh.war">
+      <element id="artifact" artifact-name="com.manage.qh:war exploded" />
+    </root>
+  </artifact>
+</component>
